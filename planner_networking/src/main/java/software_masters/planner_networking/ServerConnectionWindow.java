@@ -33,7 +33,7 @@ public class ServerConnectionWindow extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
 		
-		primaryStage.setTitle("T'sup");
+		primaryStage.setTitle("Title");
 		primaryStage.setMinWidth(250);
 		
 		VMOSA VMOSAPlan = new VMOSA();
