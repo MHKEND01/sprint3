@@ -32,6 +32,7 @@ public class ServerConnectionWindow extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
+		
 		primaryStage.setTitle("T'sup");
 		primaryStage.setMinWidth(250);
 		
@@ -43,10 +44,21 @@ public class ServerConnectionWindow extends Application {
 		tree.getSelectionModel().selectedItemProperty().addListener(e -> System.out.println(tree.getSelectionModel().getSelectedItem()));
 		tree.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		
+		BorderPane mainPane = new BorderPane();
+		
 		Label lbl = new Label();
-		VBox pane = new VBox(1);
-		pane.getChildren().addAll(tree,lbl);
-		Scene scene = new Scene(pane);
+		VBox navPane = new VBox(1);
+		navPane.getChildren().addAll(tree,lbl);
+		
+		HBox toolPane = new HBox(1);
+		Button saveButton = new Button();
+		saveButton.setText("Save");
+		saveButton.setOnAction(e -> System.out.println("Saved!"));
+		toolPane.getChildren().add(saveButton);
+		
+		mainPane.setLeft(navPane);
+		mainPane.setTop(toolPane);
+		Scene scene = new Scene(mainPane);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		
