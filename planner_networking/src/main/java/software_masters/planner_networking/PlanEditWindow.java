@@ -20,9 +20,10 @@ import javafx.geometry.*;
 public class PlanEditWindow extends Application {
 
 	/**
+	 * Responsible for generating the plan-editing window. Acts as the view in Model-View-Controller.
 	 * @param args
 	 */
-	TreeView<Node> tree;
+	private TreeView<Node> tree;
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		launch(args);
