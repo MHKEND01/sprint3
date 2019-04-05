@@ -34,35 +34,17 @@ public class PlanEditWindow extends Application {
 		// TODO Auto-generated method stub
 
 		
-		primaryStage.setTitle("Title");
+		primaryStage.setTitle("Plane Edit View");
 		primaryStage.setMinWidth(250);
-		
-		VMOSA VMOSAPlan = new VMOSA();
-		TreeItem<Node> item = convertTree(VMOSAPlan.getRoot());
-
-		
-		tree = new TreeView<Node>(item);
-		tree.getSelectionModel().selectedItemProperty().addListener(e -> System.out.println(tree.getSelectionModel().getSelectedItem()));
-		tree.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
 		
 		BorderPane mainPane = new BorderPane();
 		
-		Label lbl = new Label();
-		VBox navPane = new VBox(30);
-		tree.prefHeightProperty().bind(navPane.heightProperty().multiply(1));
-
-		navPane.getStyleClass().add("navPane");
-		navPane.getChildren().addAll(tree,lbl);
+		VMOSA VMOSAPlan = new VMOSA();
 		
-		HBox toolPane = new HBox(1);
-		Button saveButton = new Button();
-		saveButton.setText("Save");
-		saveButton.setOnAction(e -> System.out.println("Saved!"));
-		toolPane.getChildren().add(saveButton);
+		setNavBar(mainPane, VMOSAPlan);
+		setToolBar(mainPane);
+		setContent(mainPane);
 		
-		mainPane.setLeft(navPane);
-		mainPane.setTop(toolPane);
 		Scene scene = new Scene(mainPane);
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -82,6 +64,83 @@ public class PlanEditWindow extends Application {
 			newRoot.getChildren().add(convertTree(root.getChildren().get(i)));
 		}
 		return newRoot;
+	}
+	
+	/**
+	 * Displays the navigation bar
+	 * @param mainPane
+	 * @param plan
+	 */
+	public void setNavBar(BorderPane mainPane, Plan plan)
+	{
+		TreeItem<Node> item = convertTree(plan.getRoot());
+		tree = new TreeView<Node>(item);
+		tree.getSelectionModel().selectedItemProperty().addListener(e -> System.out.println(tree.getSelectionModel().getSelectedItem()));
+		tree.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+		
+		Label lbl = new Label();
+		VBox navPane = new VBox(0);
+		tree.prefHeightProperty().bind(navPane.heightProperty().multiply(1));
+
+		navPane.getStyleClass().add("navPane");
+		navPane.getChildren().addAll(tree,lbl);
+		mainPane.setLeft(navPane);	
+	}
+	
+	/**
+	 * Displays the toolbar
+	 * @param mainPane
+	 */
+	public void setToolBar(BorderPane mainPane)
+	{
+		HBox toolPane = new HBox(30);
+		Button saveButton = new Button();
+		saveButton.setText("Save");
+		saveButton.setOnAction(e -> System.out.println("Saved!"));
+		toolPane.getChildren().add(saveButton);
+		
+		Button addChildButton = new Button();
+		addChildButton.setText("Add Child");
+		addChildButton.setOnAction(e -> System.out.println("Child made!"));
+		toolPane.getChildren().add(addChildButton);
+		
+		Button deleteButton = new Button();
+		deleteButton.setText("Delete");
+		deleteButton.setOnAction(e -> System.out.println("DELETED"));
+		toolPane.getChildren().add(deleteButton);
+		
+		Region spacer = new Region();
+		HBox.setHgrow(spacer, Priority.ALWAYS);
+		TextField yearText = new TextField();
+		Label yearTextLabel = new Label("Year:");
+		toolPane.getChildren().add(spacer);
+		toolPane.getChildren().add(yearTextLabel);
+		toolPane.getChildren().add(yearText);
+		
+		Button logoutButton = new Button();
+		logoutButton.setText("Logout");
+		logoutButton.setOnAction(e -> System.out.println("Logging Out"));
+		toolPane.getChildren().add(logoutButton);
+		
+		mainPane.setTop(toolPane);
+	}
+	
+	
+	/**
+	 * Displays central text-editing pane
+	 * @param mainPane
+	 */
+	public void setContent(BorderPane mainPane)
+	{
+		VBox centerPane = new VBox(5);
+		TextField titleText = new TextField();
+		TextField contentText = new TextField();
+		contentText.prefHeightProperty().bind(centerPane.heightProperty().multiply(1));
+		centerPane.getChildren().add(titleText);
+		centerPane.getChildren().add(contentText);
+
+		mainPane.setCenter(centerPane);
 	}
 	
 	
