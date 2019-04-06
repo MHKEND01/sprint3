@@ -85,8 +85,8 @@ public class PlanEditWindow extends Application {
 	    tree = new TreeView<Node>(item);
 		tree.getSelectionModel().selectedItemProperty().addListener(e -> 
 		{
-			control.updateNodeText(tree.getSelectionModel().getSelectedItem().getValue(), titleText.getText(), 
-				contentText.getText());
+			TreeItem<Node> temp=tree.getSelectionModel().getSelectedItem();
+			control.updateNodeText(temp.getValue(), titleText.getText(), contentText.getText());
 			this.currentlySelectedTreeItem = tree.getSelectionModel().getSelectedItem();
 			this.updateContent();
 		});
@@ -100,8 +100,6 @@ public class PlanEditWindow extends Application {
 		navPane.getStyleClass().add("navPane");
 		navPane.getChildren().addAll(tree,lbl);
 		mainPane.setLeft(navPane);
-		expandTreeView(this.currentlySelectedTreeItem);
-		tree.getSelectionModel().select(tree.getRow(this.currentlySelectedTreeItem));
 	}
 	
 	/**
@@ -210,7 +208,9 @@ public class PlanEditWindow extends Application {
 	{
 		primaryStage.setMinWidth(250);
 	    
-		setNavBar();
+		tree.refresh();
+		expandTreeView(this.currentlySelectedTreeItem);
+		tree.getSelectionModel().select(tree.getRow(this.currentlySelectedTreeItem));
 		setContent();
 
 		
