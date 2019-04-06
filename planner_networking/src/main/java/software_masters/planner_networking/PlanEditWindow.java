@@ -183,7 +183,7 @@ public class PlanEditWindow extends Application {
 	private void initialize() throws RemoteException, NotBoundException
 	{
 		String hostName = "10.14.1.66";
-		Registry registry = LocateRegistry.getRegistry(hostName, 1060);
+		Registry registry = LocateRegistry.getRegistry(hostName, 1061);
 		Server stub = (Server) registry.lookup("PlannerServer");
 		Client client = new Client(stub);
 		this.model = new ClientModel(client);
@@ -201,7 +201,7 @@ public class PlanEditWindow extends Application {
 	private void login() throws IllegalArgumentException, RemoteException
 	{
 		control.login("admin", "admin");
-		control.setPlanFile("2020");
+		control.setPlanFile("2018");
 	}
 	
 	public void updatePlan()

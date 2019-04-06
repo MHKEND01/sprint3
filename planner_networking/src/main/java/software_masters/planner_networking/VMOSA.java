@@ -42,10 +42,15 @@ public class VMOSA extends Plan
 	 */
 	public boolean addNode(Node parent) throws RemoteException, IllegalArgumentException
 	{
-		if (parent.getName() == "Vision" || parent == null)
+		if (parent == null) 
 		{
 			throw new IllegalArgumentException("Cannot add to this parent");
-		} else
+		}
+		else if (parent.getName().equals("Vision"))
+		{
+			throw new IllegalArgumentException("Cannot add to this parent");
+		} 
+		else
 		{
 
 			for (int i = (this.getList().indexOf(parent.getName())) + 1; i < this.getList().size(); i++)
@@ -68,20 +73,18 @@ public class VMOSA extends Plan
 	 * @return boolean true is removed
 	 */
 	public boolean removeNode(Node nodeRemove) throws IllegalArgumentException
-
 	{
-		if (nodeRemove.getName() == this.getRoot().getName() || nodeRemove.getParent().getChildren().size() == 1
-				|| nodeRemove == null)
-
-		{
-
+		if ( nodeRemove == null) {
 			throw new IllegalArgumentException("Cannot remove this node");
-
-		} else
+		}
+		else if (nodeRemove.getName().equals(this.getRoot().getName()) || nodeRemove.getParent().getChildren().size() == 1)
+		{
+			throw new IllegalArgumentException("Cannot remove this node");
+		} 
+		else
 		{
 			nodeRemove.getParent().removeChild(nodeRemove);
 			nodeRemove.setParent(null);
-
 			return true;
 
 		}

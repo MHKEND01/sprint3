@@ -45,7 +45,8 @@ public class Centre extends Plan
 		if (parent == null)
 		{
 			throw new IllegalArgumentException("Cannot add to this parent");
-		} else
+		} 
+		else
 		{
 			for (int i = (this.getList().indexOf(parent.getName())) + 1; i < this.getList().size(); i++)
 			{
@@ -60,9 +61,6 @@ public class Centre extends Plan
 		}
 	}
 
-	// remove a node if it is allowed to be removed
-	// cannot be removed if it is the only child of its parent
-	// or if it is the root node
 	/**
 	 * Takes a Node nodeRemove and returns a boolean true is removed
 	 * 
@@ -71,13 +69,17 @@ public class Centre extends Plan
 	 */
 	public boolean removeNode(Node nodeRemove) throws IllegalArgumentException
 	{
-		if ((nodeRemove.getName() == this.getRoot().getName()) || nodeRemove.getParent().getChildren().size() == 1
-				|| nodeRemove == null)
+		if (nodeRemove == null) 
+		{
+			throw new IllegalArgumentException("Cannot remove this node");
+		}
+		else if ((nodeRemove.getName().equals(this.getRoot().getName())) || nodeRemove.getParent().getChildren().size() == 1)
 		{
 
 			throw new IllegalArgumentException("Cannot remove this node");
 
-		} else
+		} 
+		else
 		{
 			nodeRemove.getParent().removeChild(nodeRemove);
 			nodeRemove.setParent(null);
