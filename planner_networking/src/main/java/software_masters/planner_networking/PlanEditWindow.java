@@ -7,12 +7,15 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.Optional;
 
 import javafx.application.*;
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.text.*;
 import javafx.event.*;
 import javafx.geometry.*;
@@ -30,7 +33,7 @@ public class PlanEditWindow extends Application {
 	 */
 	
 	private PlanEditController control;
-	private TextField titleText, contentText;
+	private TextField titleText, contentText, yearText;
 	private ClientModel model;
 	private Stage primaryStage;
 	private Scene scene;
@@ -56,6 +59,7 @@ public class PlanEditWindow extends Application {
 		initialize();
 		
 		primaryStage.setTitle("Plane Edit View");
+		primaryStage.setOnCloseRequest((WindowEvent e) -> closeWindow());
 		primaryStage.show();
 
 		
@@ -143,7 +147,7 @@ public class PlanEditWindow extends Application {
 		
 		Region spacer = new Region();
 		HBox.setHgrow(spacer, Priority.ALWAYS);
-		TextField yearText = new TextField(planFile.getYear());
+		yearText = new TextField(planFile.getYear());
 		Label yearTextLabel = new Label("Year:");
 		
 		Button saveButton = new Button();
@@ -164,7 +168,7 @@ public class PlanEditWindow extends Application {
 		
 		Button logoutButton = new Button();
 		logoutButton.setText("Logout");
-		logoutButton.setOnAction(e -> System.out.println("Logging Out"));
+		logoutButton.setOnAction(e -> warnToSave());
 		toolPane.getChildren().add(logoutButton);
 		
 		mainPane.setTop(toolPane);
@@ -193,8 +197,8 @@ public class PlanEditWindow extends Application {
 	 */
 	private void initialize() throws RemoteException, NotBoundException
 	{
-		String hostName = "10.14.1.69";
-		Registry registry = LocateRegistry.getRegistry(hostName, 1061);
+		String hostName = "10.14.1.66";
+		Registry registry = LocateRegistry.getRegistry(hostName, 1066);
 		Server stub = (Server) registry.lookup("PlannerServer");
 		Client client = new Client(stub);
 		this.model = new ClientModel(client);
@@ -258,6 +262,73 @@ public class PlanEditWindow extends Application {
 	            selectedItem.setExpanded( true );
 	        }
 	    }
+	}
+	
+	/**Upon closing the window, determines if there are any changes which may need to be saved first.
+	 * If so, a warning popup is displayed.
+	 * 
+	 */
+	public void closeWindow()
+	{
+		String currContent = contentText.getText();
+		String currTitle = titleText.getText();
+		String currYear = yearText.getText();
+		
+		if(currContent != model.getContent() || currTitle != model.getTitle() || currYear != model.getYear())
+		{
+			control.setSaved(false);
+		}
+		
+		if(!model.isSaved())
+		{
+			warnToSave();
+		}
+
+	}
+	
+	/**
+	 * Creates popup window asking user if they want to exit without saving
+	 */
+	public void warnToSave()
+	{
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle(" Save Warning");
+		alert.setHeaderText("Are you sure you want to close without saving?");
+		alert.setContentText(null);
+	
+		
+		alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+		
+		Optional<ButtonType> result = alert.showAndWait();
+		if(result.get() == ButtonType.YES)
+		{
+			primaryStage.close();
+		}
+		else if(result.get() == ButtonType.NO)
+		{
+			try {
+				control.savePlan(yearText.getText());
+				primaryStage.close();
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				warn("Cannot be saved, this year is invalid");
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				warn("Failed to push to server");
+			}
+		}
+		else // buttonType Cancel
+		{
+			assert true;
+		}
+	}
+	public void warn(String message)
+	{
+		Alert alert = new Alert(AlertType.WARNING);
+		alert.setTitle("Warning Dialog");
+		alert.setHeaderText(message);
+		alert.setContentText(null);
+		alert.showAndWait();
 	}
 
 }

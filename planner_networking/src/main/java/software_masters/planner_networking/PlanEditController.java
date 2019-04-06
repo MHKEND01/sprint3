@@ -83,5 +83,12 @@ public class PlanEditController {
 	{
 		model.deleteSection();
 	}
+	
+	/**
+	 * @param isSaved the isSaved to set
+	 */
+	public void setSaved(boolean isSaved) {
+		model.setSaved(isSaved);
+	}
 
 }

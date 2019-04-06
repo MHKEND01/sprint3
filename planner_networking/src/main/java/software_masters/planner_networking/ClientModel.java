@@ -18,6 +18,7 @@ public class ClientModel
 	 
 	private Client client;
 	private ArrayList<PlanEditWindow> views = new ArrayList<PlanEditWindow>();
+	private boolean isSaved;
 	
 	public ClientModel(Client client)
 	{
@@ -58,6 +59,7 @@ public class ClientModel
 		client.editData(contentText);
 		client.editName(titleText);
 		client.setCurrNode(node);
+		isSaved = false;
 	}
 
 	/**
@@ -91,6 +93,14 @@ public class ClientModel
 	}
 	
 	/**
+	 * @return year of current plan file
+	 */
+	public String getYear()
+	{
+		return client.getCurrPlanFile().getYear();
+	}
+	
+	/**
 	 * @return current plan
 	 */
 	public Plan getPlan()
@@ -115,6 +125,7 @@ public class ClientModel
 	public void setPlanFile(String year) throws IllegalArgumentException, RemoteException
 	{
 		client.getPlan(year);
+		isSaved = true;
 		notifyViews();
 	}
 	
@@ -135,6 +146,7 @@ public class ClientModel
 	{
 		client.getCurrPlanFile().setYear(year);
 		client.pushPlan(client.getCurrPlanFile());
+		isSaved = true;
 	}
 	
 	/**
@@ -147,6 +159,7 @@ public class ClientModel
 		client.addBranch();
 		this.client.setCurrNode(this.client.getCurrPlanFile().getPlan().getRoot());
 		notifyViews();
+		isSaved = false;
 	}
 	
 	/**
@@ -159,5 +172,20 @@ public class ClientModel
 		client.removeBranch();
 		this.client.setCurrNode(this.client.getCurrPlanFile().getPlan().getRoot());
 		notifyViews();
+		isSaved = false;
+	}
+
+	/**
+	 * @return the isSaved
+	 */
+	public boolean isSaved() {
+		return isSaved;
+	}
+
+	/**
+	 * @param isSaved the isSaved to set
+	 */
+	public void setSaved(boolean isSaved) {
+		this.isSaved = isSaved;
 	}
 }
