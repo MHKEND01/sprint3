@@ -48,7 +48,7 @@ public class ClientModel
 		views.forEach(n -> n.updatePlan());
 	}
 	
-	/**Updates the text content and name of a node
+	/**Updates the text content and name of a node, and changes currently accessed node
 	 * @param node
 	 * @param titleText
 	 * @param contentText
@@ -124,5 +124,27 @@ public class ClientModel
 	public PlanFile getPlanFile()
 	{
 		return client.getCurrPlanFile();
+	}
+	
+	/**Saves the current state of the planfile after updating the year if changed, if allowed
+	 * @param year
+	 * @throws IllegalArgumentException
+	 * @throws RemoteException
+	 */
+	public void savePlan(String year) throws IllegalArgumentException, RemoteException
+	{
+		client.getCurrPlanFile().setYear(year);
+		client.pushPlan(client.getCurrPlanFile());
+	}
+	
+	/**
+	 * Adds a new section to the business plan
+	 * @throws IllegalArgumentException
+	 * @throws RemoteException
+	 */
+	public void addSection() throws IllegalArgumentException, RemoteException
+	{
+		client.addBranch();
+		notifyViews();
 	}
 }

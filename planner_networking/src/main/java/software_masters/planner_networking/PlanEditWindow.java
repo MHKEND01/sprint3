@@ -37,6 +37,7 @@ public class PlanEditWindow extends Application {
 	private TreeView<Node> tree;
 	private TreeItem<Node> currentlySelectedTreeItem;
 	private Plan plan;
+	private PlanFile planFile;
 	private BorderPane mainPane;
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -83,6 +84,8 @@ public class PlanEditWindow extends Application {
 	{
 		TreeItem<Node> item = convertTree(plan.getRoot());
 	    tree = new TreeView<Node>(item);
+	    this.currentlySelectedTreeItem = item;
+		tree.getSelectionModel().select(tree.getRow(this.currentlySelectedTreeItem));
 		tree.getSelectionModel().selectedItemProperty().addListener(e -> 
 		{
 			TreeItem<Node> temp=tree.getSelectionModel().getSelectedItem();
@@ -109,14 +112,17 @@ public class PlanEditWindow extends Application {
 	public void setToolBar()
 	{
 		HBox toolPane = new HBox(30);
-		Button saveButton = new Button();
-		saveButton.setText("Save");
-		saveButton.setOnAction(e -> System.out.println("Saved!"));
-		toolPane.getChildren().add(saveButton);
 		
 		Button addChildButton = new Button();
-		addChildButton.setText("Add Child");
-		addChildButton.setOnAction(e -> System.out.println("Child made!"));
+		addChildButton.setText("Add Section");
+		addChildButton.setOnAction(e -> {
+			try {
+				control.addSection();
+			} catch (IllegalArgumentException | RemoteException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+		});
 		toolPane.getChildren().add(addChildButton);
 		
 		Button deleteButton = new Button();
@@ -126,8 +132,21 @@ public class PlanEditWindow extends Application {
 		
 		Region spacer = new Region();
 		HBox.setHgrow(spacer, Priority.ALWAYS);
-		TextField yearText = new TextField();
+		TextField yearText = new TextField(planFile.getYear());
 		Label yearTextLabel = new Label("Year:");
+		
+		Button saveButton = new Button();
+		saveButton.setText("Save");
+		saveButton.setOnAction(e -> {
+			try {
+				control.savePlan(yearText.getText());
+			} catch (IllegalArgumentException | RemoteException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+		toolPane.getChildren().add(saveButton);
+		
 		toolPane.getChildren().add(spacer);
 		toolPane.getChildren().add(yearTextLabel);
 		toolPane.getChildren().add(yearText);
@@ -182,14 +201,14 @@ public class PlanEditWindow extends Application {
 	private void login() throws IllegalArgumentException, RemoteException
 	{
 		control.login("admin", "admin");
-		control.setPlanFile("2019");
+		control.setPlanFile("2020");
 	}
 	
 	public void updatePlan()
 	{
 		primaryStage.setMinWidth(250);
 		
-		PlanFile planFile = model.getPlanFile();
+		planFile = model.getPlanFile();
 		plan = planFile.getPlan();
 		mainPane = new BorderPane();
 		TreeItem<Node> item = convertTree(plan.getRoot());

@@ -53,5 +53,25 @@ public class PlanEditController {
 	{
 		model.setPlanFile(year);
 	}
+	
+	/**Saves the current state of the planfile after updating the year if changed, if allowed
+	 * @param year
+	 * @throws IllegalArgumentException
+	 * @throws RemoteException
+	 */
+	public void savePlan(String year) throws IllegalArgumentException, RemoteException
+	{
+		model.savePlan(year);
+	}
+	
+	/**
+	 * Adds a new section to the business plan
+	 * @throws IllegalArgumentException
+	 * @throws RemoteException
+	 */
+	public void addSection() throws IllegalArgumentException, RemoteException
+	{
+		model.addSection();
+	}
 
 }
