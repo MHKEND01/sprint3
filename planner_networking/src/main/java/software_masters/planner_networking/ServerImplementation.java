@@ -57,6 +57,11 @@ public class ServerImplementation implements Server
 		plan.setName("Centre_Plan_1");
 		PlanFile planfile = new PlanFile("2019", true, plan);
 		dpt.addPlan("2019", planfile);
+		
+		plan = new VMOSA();
+		plan.setName("VMOSA_1");
+		planfile = new PlanFile("2018", true, plan);
+		dpt.addPlan("2018", planfile);
 
 		Plan defaultCentre = new Centre();
 		Plan defaultVMOSA = new VMOSA();
@@ -156,6 +161,7 @@ public class ServerImplementation implements Server
 
 		}
 		dept.addPlan(plan.getYear(), plan);
+		save();
 
 	}
 
@@ -526,7 +532,7 @@ public class ServerImplementation implements Server
 		Registry registry;
 		try
 		{
-			registry = LocateRegistry.createRegistry(1060);
+			registry = LocateRegistry.createRegistry(1061);
 			server = ServerImplementation.load();
 		} catch (FileNotFoundException e)
 		{

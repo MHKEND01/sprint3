@@ -77,6 +77,10 @@ public class VMOSA extends Plan
 		if ( nodeRemove == null) {
 			throw new IllegalArgumentException("Cannot remove this node");
 		}
+		else if (nodeRemove.getParent()==null)
+		{
+			throw new IllegalArgumentException("Cannot remove this node");
+		} 
 		else if (nodeRemove.getName().equals(this.getRoot().getName()) || nodeRemove.getParent().getChildren().size() == 1)
 		{
 			throw new IllegalArgumentException("Cannot remove this node");

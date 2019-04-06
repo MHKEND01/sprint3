@@ -193,7 +193,7 @@ public class PlanEditWindow extends Application {
 	 */
 	private void initialize() throws RemoteException, NotBoundException
 	{
-		String hostName = "10.14.1.66";
+		String hostName = "10.14.1.69";
 		Registry registry = LocateRegistry.getRegistry(hostName, 1061);
 		Server stub = (Server) registry.lookup("PlannerServer");
 		Client client = new Client(stub);
