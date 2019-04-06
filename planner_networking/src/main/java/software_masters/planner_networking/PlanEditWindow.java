@@ -33,6 +33,7 @@ public class PlanEditWindow extends Application {
 	private TextField titleText, contentText;
 	private ClientModel model;
 	private Stage primaryStage;
+	private Scene scene;
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		launch(args);
@@ -44,9 +45,12 @@ public class PlanEditWindow extends Application {
 		// TODO Auto-generated method stub
 		
 		this.primaryStage = primaryStage;
+		BorderPane mainPane = new BorderPane();
+		this.scene = new Scene(mainPane);
 		initialize();
 		
 		primaryStage.setTitle("Plane Edit View");
+		primaryStage.show();
 
 		
 	}
@@ -75,8 +79,8 @@ public class PlanEditWindow extends Application {
 		TreeItem<Node> item = convertTree(plan.getRoot());
 	    TreeView<Node> tree = new TreeView<Node>(item);
 		tree.getSelectionModel().selectedItemProperty().addListener(e -> control.updateNodeText(
-				tree.getSelectionModel().getSelectedItem().getValue(), contentText.getText(), 
-				titleText.getText()));
+				tree.getSelectionModel().getSelectedItem().getValue(), titleText.getText(), 
+				contentText.getText()));
 		tree.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
 		
@@ -155,6 +159,7 @@ public class PlanEditWindow extends Application {
 		Server stub = (Server) registry.lookup("PlannerServer");
 		Client client = new Client(stub);
 		this.model = new ClientModel(client);
+		this.model.addView(this);
 		control = new PlanEditController(model);
 		login();
 		
@@ -181,10 +186,8 @@ public class PlanEditWindow extends Application {
 		setToolBar(mainPane);
 		setContent(mainPane);
 		
-		Scene scene = new Scene(mainPane);
+		this.scene.setRoot(mainPane);
 		primaryStage.setScene(scene);
-		primaryStage.show();
-
 	}
 	
 	
