@@ -3,6 +3,11 @@
  */
 package software_masters.planner_networking;
 
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+
 import javafx.application.*;
 import javafx.stage.*;
 import javafx.scene.*;
@@ -23,7 +28,10 @@ public class PlanEditWindow extends Application {
 	 * Responsible for generating the plan-editing window. Acts as the view in Model-View-Controller.
 	 * @param args
 	 */
-	private TreeView<Node> tree;
+	
+	private PlanEditController control;
+	private TextField titleText, contentText;
+	private ClientModel model;
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		launch(args);
@@ -33,16 +41,15 @@ public class PlanEditWindow extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
-
+		
+		initialize();
 		
 		primaryStage.setTitle("Plane Edit View");
 		primaryStage.setMinWidth(250);
 		
 		BorderPane mainPane = new BorderPane();
-		
-		VMOSA VMOSAPlan = new VMOSA();
-		
-		setNavBar(mainPane, VMOSAPlan);
+				
+		setNavBar(mainPane, model.getPlan());
 		setToolBar(mainPane);
 		setContent(mainPane);
 		
@@ -75,8 +82,10 @@ public class PlanEditWindow extends Application {
 	public void setNavBar(BorderPane mainPane, Plan plan)
 	{
 		TreeItem<Node> item = convertTree(plan.getRoot());
-		tree = new TreeView<Node>(item);
-		tree.getSelectionModel().selectedItemProperty().addListener(e -> System.out.println(tree.getSelectionModel().getSelectedItem()));
+	    TreeView<Node> tree = new TreeView<Node>(item);
+		tree.getSelectionModel().selectedItemProperty().addListener(e -> control.updateNodeText(
+				tree.getSelectionModel().getSelectedItem().getValue(), contentText.getText(), 
+				titleText.getText()));
 		tree.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
 		
@@ -135,13 +144,40 @@ public class PlanEditWindow extends Application {
 	public void setContent(BorderPane mainPane)
 	{
 		VBox centerPane = new VBox(5);
-		TextField titleText = new TextField();
-		TextField contentText = new TextField();
+		this.titleText = new TextField(model.getTitle());
+		this.contentText = new TextField(model.getContent());
 		contentText.prefHeightProperty().bind(centerPane.heightProperty().multiply(1));
 		centerPane.getChildren().add(titleText);
 		centerPane.getChildren().add(contentText);
 
 		mainPane.setCenter(centerPane);
+	}
+	
+	/**Sets up client, controller, model, connects to server, and logs in.
+	 * @throws RemoteException
+	 * @throws NotBoundException
+	 */
+	private void initialize() throws RemoteException, NotBoundException
+	{
+		String hostName = "10.14.1.69";
+		Registry registry = LocateRegistry.getRegistry(hostName, 1060);
+		Server stub = (Server) registry.lookup("PlannerServer");
+		Client client = new Client(stub);
+		this.model = new ClientModel(client);
+		control = new PlanEditController(model);
+		login(client);
+		
+	}
+	
+	/**Logs in
+	 * @param client
+	 * @throws IllegalArgumentException
+	 * @throws RemoteException
+	 */
+	private void login(Client client) throws IllegalArgumentException, RemoteException
+	{
+		client.login("admin", "admin");
+		client.getPlan("2019");
 	}
 	
 	

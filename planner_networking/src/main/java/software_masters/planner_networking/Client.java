@@ -171,6 +171,22 @@ public class Client
 	{
 		return this.currNode.getData();
 	}
+	
+	/**Edits name of current node
+	 * @param name
+	 */
+	public void editName(String name)
+	{
+		this.currNode.setName(name);
+	}
+	
+	/**
+	 * @return name of current node
+	 */
+	public String getName()
+	{
+		return this.currNode.getName();
+	}
 
 	/**
 	 * @param year

@@ -46,4 +46,54 @@ public class ClientModel
 	{
 		
 	}
+	
+	/**Updates the text content and name of a node
+	 * @param node
+	 * @param titleText
+	 * @param contentText
+	 */
+	public void updateNodeText(Node node, String titleText, String contentText)
+	{
+		client.editData(contentText);
+		client.editName(titleText);
+		client.setCurrNode(node);
+	}
+
+	/**
+	 * @return the client
+	 */
+	public Client getClient() {
+		return client;
+	}
+
+	/**
+	 * @param client the client to set
+	 */
+	public void setClient(Client client) {
+		this.client = client;
+	}
+	
+	/**
+	 * @return name of current node
+	 */
+	public String getTitle()
+	{
+		return client.getCurrNode().getName();
+	}
+	
+	/**
+	 * @return content of current node
+	 */
+	public String getContent()
+	{
+		return client.getCurrNode().getData();
+	}
+	
+	/**
+	 * @return current plan
+	 */
+	public Plan getPlan()
+	{
+		return client.getCurrPlanFile().getPlan();
+	}
 }

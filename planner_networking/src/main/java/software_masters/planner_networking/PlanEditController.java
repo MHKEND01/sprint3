@@ -22,5 +22,15 @@ public class PlanEditController {
 		
 		this.model = model;
 	}
+	
+	/**Updates the text content and name of a node
+	 * @param node
+	 * @param titleText
+	 * @param contentText
+	 */
+	public void updateNodeText(Node node, String titleText, String contentText)
+	{
+		model.updateNodeText(node, titleText, contentText);
+	}
 
 }
