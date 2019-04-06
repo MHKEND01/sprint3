@@ -3,6 +3,7 @@
  */
 package software_masters.planner_networking;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 /**
@@ -44,7 +45,7 @@ public class ClientModel
 	 */
 	public void notifyViews()
 	{
-		
+		views.forEach(n -> n.updateWindow());
 	}
 	
 	/**Updates the text content and name of a node
@@ -57,6 +58,7 @@ public class ClientModel
 		client.editData(contentText);
 		client.editName(titleText);
 		client.setCurrNode(node);
+		notifyViews();
 	}
 
 	/**
@@ -95,5 +97,33 @@ public class ClientModel
 	public Plan getPlan()
 	{
 		return client.getCurrPlanFile().getPlan();
+	}
+	
+	/**Logs in
+	 * @throws IllegalArgumentException
+	 * @throws RemoteException
+	 */
+	public void login(String username, String password) throws IllegalArgumentException, RemoteException
+	{
+		client.login(username, password);
+	}
+	
+	/**Sets client's plan and notifies views that the model has a plan.
+	 * @param year
+	 * @throws IllegalArgumentException
+	 * @throws RemoteException
+	 */
+	public void setPlanFile(String year) throws IllegalArgumentException, RemoteException
+	{
+		client.getPlan(year);
+		notifyViews();
+	}
+	
+	/**
+	 * @return current planFile
+	 */
+	public PlanFile getPlanFile()
+	{
+		return client.getCurrPlanFile();
 	}
 }

@@ -32,6 +32,7 @@ public class PlanEditWindow extends Application {
 	private PlanEditController control;
 	private TextField titleText, contentText;
 	private ClientModel model;
+	private Stage primaryStage;
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		launch(args);
@@ -42,20 +43,10 @@ public class PlanEditWindow extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
 		
+		this.primaryStage = primaryStage;
 		initialize();
 		
 		primaryStage.setTitle("Plane Edit View");
-		primaryStage.setMinWidth(250);
-		
-		BorderPane mainPane = new BorderPane();
-				
-		setNavBar(mainPane, model.getPlan());
-		setToolBar(mainPane);
-		setContent(mainPane);
-		
-		Scene scene = new Scene(mainPane);
-		primaryStage.setScene(scene);
-		primaryStage.show();
 
 		
 	}
@@ -165,7 +156,7 @@ public class PlanEditWindow extends Application {
 		Client client = new Client(stub);
 		this.model = new ClientModel(client);
 		control = new PlanEditController(model);
-		login(client);
+		login();
 		
 	}
 	
@@ -174,10 +165,26 @@ public class PlanEditWindow extends Application {
 	 * @throws IllegalArgumentException
 	 * @throws RemoteException
 	 */
-	private void login(Client client) throws IllegalArgumentException, RemoteException
+	private void login() throws IllegalArgumentException, RemoteException
 	{
-		client.login("admin", "admin");
-		client.getPlan("2019");
+		control.login("admin", "admin");
+		control.setPlanFile("2019");
+	}
+	
+	public void updateWindow()
+	{
+		primaryStage.setMinWidth(250);
+		
+		BorderPane mainPane = new BorderPane();
+				
+		setNavBar(mainPane, model.getPlan());
+		setToolBar(mainPane);
+		setContent(mainPane);
+		
+		Scene scene = new Scene(mainPane);
+		primaryStage.setScene(scene);
+		primaryStage.show();
+
 	}
 	
 	
