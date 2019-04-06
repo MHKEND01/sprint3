@@ -34,6 +34,10 @@ public class PlanEditWindow extends Application {
 	private ClientModel model;
 	private Stage primaryStage;
 	private Scene scene;
+	private TreeView<Node> tree;
+	private TreeItem<Node> currentlySelectedTreeItem;
+	private Plan plan;
+	private BorderPane mainPane;
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		launch(args);
@@ -45,8 +49,9 @@ public class PlanEditWindow extends Application {
 		// TODO Auto-generated method stub
 		
 		this.primaryStage = primaryStage;
-		BorderPane mainPane = new BorderPane();
+		mainPane = new BorderPane();
 		this.scene = new Scene(mainPane);
+		
 		initialize();
 		
 		primaryStage.setTitle("Plane Edit View");
@@ -74,30 +79,36 @@ public class PlanEditWindow extends Application {
 	 * @param mainPane
 	 * @param plan
 	 */
-	public void setNavBar(BorderPane mainPane, Plan plan)
+	public void setNavBar()
 	{
 		TreeItem<Node> item = convertTree(plan.getRoot());
-	    TreeView<Node> tree = new TreeView<Node>(item);
-		tree.getSelectionModel().selectedItemProperty().addListener(e -> control.updateNodeText(
-				tree.getSelectionModel().getSelectedItem().getValue(), titleText.getText(), 
-				contentText.getText()));
+	    tree = new TreeView<Node>(item);
+		tree.getSelectionModel().selectedItemProperty().addListener(e -> 
+		{
+			control.updateNodeText(tree.getSelectionModel().getSelectedItem().getValue(), titleText.getText(), 
+				contentText.getText());
+			this.currentlySelectedTreeItem = tree.getSelectionModel().getSelectedItem();
+			this.updateContent();
+		});
 		tree.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
 		
 		Label lbl = new Label();
 		VBox navPane = new VBox(0);
 		tree.prefHeightProperty().bind(navPane.heightProperty().multiply(1));
 
+		
 		navPane.getStyleClass().add("navPane");
 		navPane.getChildren().addAll(tree,lbl);
-		mainPane.setLeft(navPane);	
+		mainPane.setLeft(navPane);
+		expandTreeView(this.currentlySelectedTreeItem);
+		tree.getSelectionModel().select(tree.getRow(this.currentlySelectedTreeItem));
 	}
 	
 	/**
 	 * Displays the toolbar
 	 * @param mainPane
 	 */
-	public void setToolBar(BorderPane mainPane)
+	public void setToolBar()
 	{
 		HBox toolPane = new HBox(30);
 		Button saveButton = new Button();
@@ -136,7 +147,7 @@ public class PlanEditWindow extends Application {
 	 * Displays central text-editing pane
 	 * @param mainPane
 	 */
-	public void setContent(BorderPane mainPane)
+	public void setContent()
 	{
 		VBox centerPane = new VBox(5);
 		this.titleText = new TextField(model.getTitle());
@@ -154,7 +165,7 @@ public class PlanEditWindow extends Application {
 	 */
 	private void initialize() throws RemoteException, NotBoundException
 	{
-		String hostName = "10.14.1.69";
+		String hostName = "10.14.1.66";
 		Registry registry = LocateRegistry.getRegistry(hostName, 1060);
 		Server stub = (Server) registry.lookup("PlannerServer");
 		Client client = new Client(stub);
@@ -176,20 +187,49 @@ public class PlanEditWindow extends Application {
 		control.setPlanFile("2019");
 	}
 	
-	public void updateWindow()
+	public void updatePlan()
 	{
 		primaryStage.setMinWidth(250);
 		
-		BorderPane mainPane = new BorderPane();
-				
-		setNavBar(mainPane, model.getPlan());
-		setToolBar(mainPane);
-		setContent(mainPane);
+		PlanFile planFile = model.getPlanFile();
+		plan = planFile.getPlan();
+		mainPane = new BorderPane();
+		TreeItem<Node> item = convertTree(plan.getRoot());
+	    this.currentlySelectedTreeItem = item;
+		setNavBar();
+		setToolBar();
+		setContent();
 		
+		//tree.getSelectionModel().select(tree.getRow(tempItem));
 		this.scene.setRoot(mainPane);
+		
 		primaryStage.setScene(scene);
 	}
 	
+	public void updateContent()
+	{
+		primaryStage.setMinWidth(250);
+	    
+		setNavBar();
+		setContent();
+
+		
+		this.scene.setRoot(mainPane);
+		
+		primaryStage.setScene(scene);
+	}
 	
+	private void expandTreeView( TreeItem<Node> selectedItem ) 
+	{
+	    if ( selectedItem != null ) 
+	    {
+	        expandTreeView( selectedItem.getParent() );
+
+	        if ( ! selectedItem.isLeaf() ) 
+	        {
+	            selectedItem.setExpanded( true );
+	        }
+	    }
+	}
 
 }

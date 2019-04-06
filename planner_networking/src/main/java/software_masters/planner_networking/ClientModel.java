@@ -45,7 +45,7 @@ public class ClientModel
 	 */
 	public void notifyViews()
 	{
-		views.forEach(n -> n.updateWindow());
+		views.forEach(n -> n.updatePlan());
 	}
 	
 	/**Updates the text content and name of a node
@@ -58,7 +58,6 @@ public class ClientModel
 		client.editData(contentText);
 		client.editName(titleText);
 		client.setCurrNode(node);
-		notifyViews();
 	}
 
 	/**
