@@ -73,5 +73,15 @@ public class PlanEditController {
 	{
 		model.addSection();
 	}
+	
+	/**
+	 * removes a section from the business plan if allowed
+	 * @throws IllegalArgumentException
+	 * @throws RemoteException
+	 */
+	public void deleteSection() throws IllegalArgumentException, RemoteException
+	{
+		model.deleteSection();
+	}
 
 }

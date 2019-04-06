@@ -148,4 +148,16 @@ public class ClientModel
 		this.client.setCurrNode(this.client.getCurrPlanFile().getPlan().getRoot());
 		notifyViews();
 	}
+	
+	/**
+	 * removes a section from the business plan if allowed
+	 * @throws IllegalArgumentException
+	 * @throws RemoteException
+	 */
+	public void deleteSection() throws IllegalArgumentException, RemoteException
+	{
+		client.removeBranch();
+		this.client.setCurrNode(this.client.getCurrPlanFile().getPlan().getRoot());
+		notifyViews();
+	}
 }

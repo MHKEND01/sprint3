@@ -131,7 +131,14 @@ public class PlanEditWindow extends Application {
 		
 		Button deleteButton = new Button();
 		deleteButton.setText("Delete");
-		deleteButton.setOnAction(e -> System.out.println("DELETED"));
+		deleteButton.setOnAction(e -> {
+			try {
+				control.deleteSection();
+			} catch (IllegalArgumentException | RemoteException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+		});
 		toolPane.getChildren().add(deleteButton);
 		
 		Region spacer = new Region();
