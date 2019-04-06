@@ -85,6 +85,8 @@ public class PlanEditWindow extends Application {
 		TreeItem<Node> item = convertTree(plan.getRoot());
 	    tree = new TreeView<Node>(item);
 	    this.currentlySelectedTreeItem = item;
+	    
+		tree.refresh();
 		tree.getSelectionModel().select(tree.getRow(this.currentlySelectedTreeItem));
 		tree.getSelectionModel().selectedItemProperty().addListener(e -> 
 		{
@@ -117,6 +119,8 @@ public class PlanEditWindow extends Application {
 		addChildButton.setText("Add Section");
 		addChildButton.setOnAction(e -> {
 			try {
+				TreeItem<Node> temp=tree.getSelectionModel().getSelectedItem();
+				control.updateNodeText(temp.getValue(), titleText.getText(), contentText.getText());
 				control.addSection();
 			} catch (IllegalArgumentException | RemoteException e2) {
 				// TODO Auto-generated catch block
@@ -211,13 +215,11 @@ public class PlanEditWindow extends Application {
 		planFile = model.getPlanFile();
 		plan = planFile.getPlan();
 		mainPane = new BorderPane();
-		TreeItem<Node> item = convertTree(plan.getRoot());
-	    this.currentlySelectedTreeItem = item;
+
 		setNavBar();
 		setToolBar();
 		setContent();
 		
-		//tree.getSelectionModel().select(tree.getRow(tempItem));
 		this.scene.setRoot(mainPane);
 		
 		primaryStage.setScene(scene);

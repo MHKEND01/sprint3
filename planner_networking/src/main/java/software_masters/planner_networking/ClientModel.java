@@ -145,6 +145,7 @@ public class ClientModel
 	public void addSection() throws IllegalArgumentException, RemoteException
 	{
 		client.addBranch();
+		this.client.setCurrNode(this.client.getCurrPlanFile().getPlan().getRoot());
 		notifyViews();
 	}
 }
