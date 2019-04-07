@@ -59,7 +59,10 @@ public class PlanEditWindow extends Application {
 		initialize();
 		
 		primaryStage.setTitle("Plane Edit View");
-		primaryStage.setOnCloseRequest((WindowEvent e) -> closeWindow());
+		primaryStage.setOnCloseRequest((WindowEvent e) -> { 
+			e.consume();
+			closeWindow();
+			});
 		primaryStage.show();
 
 		
@@ -154,6 +157,8 @@ public class PlanEditWindow extends Application {
 		saveButton.setText("Save");
 		saveButton.setOnAction(e -> {
 			try {
+				TreeItem<Node> temp=tree.getSelectionModel().getSelectedItem();
+				control.updateNodeText(temp.getValue(), titleText.getText(), contentText.getText());
 				control.savePlan(yearText.getText());
 			} catch (IllegalArgumentException | RemoteException e1) {
 				// TODO Auto-generated catch block
@@ -168,7 +173,7 @@ public class PlanEditWindow extends Application {
 		
 		Button logoutButton = new Button();
 		logoutButton.setText("Logout");
-		logoutButton.setOnAction(e -> warnToSave());
+		logoutButton.setOnAction(e -> closeWindow());
 		toolPane.getChildren().add(logoutButton);
 		
 		mainPane.setTop(toolPane);
@@ -274,7 +279,7 @@ public class PlanEditWindow extends Application {
 		String currTitle = titleText.getText();
 		String currYear = yearText.getText();
 		
-		if(currContent != model.getContent() || currTitle != model.getTitle() || currYear != model.getYear())
+		if(!currContent.equals(model.getContent()) || !currTitle.equals(model.getTitle()) || !currYear.equals(model.getYear()))
 		{
 			control.setSaved(false);
 		}
@@ -282,7 +287,10 @@ public class PlanEditWindow extends Application {
 		if(!model.isSaved())
 		{
 			warnToSave();
+		}else {
+			primaryStage.close();
 		}
+		
 
 	}
 	
@@ -292,21 +300,20 @@ public class PlanEditWindow extends Application {
 	public void warnToSave()
 	{
 		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle(" Save Warning");
-		alert.setHeaderText("Are you sure you want to close without saving?");
-		alert.setContentText(null);
+		alert.setTitle(" Save Plan?");
+		alert.setHeaderText("Save document before closing?");
+		alert.setContentText("Your changes will be lost if you do not save.");
 	
-		
-		alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+		ButtonType save=new ButtonType("Save");
+		ButtonType no_save=new ButtonType("Dont Save");
+		alert.getButtonTypes().setAll(save, no_save, ButtonType.CANCEL);
 		
 		Optional<ButtonType> result = alert.showAndWait();
-		if(result.get() == ButtonType.YES)
-		{
-			primaryStage.close();
-		}
-		else if(result.get() == ButtonType.NO)
+		if(result.get() == save)
 		{
 			try {
+				TreeItem<Node> temp=tree.getSelectionModel().getSelectedItem();
+				control.updateNodeText(temp.getValue(), titleText.getText(), contentText.getText());
 				control.savePlan(yearText.getText());
 				primaryStage.close();
 			} catch (IllegalArgumentException e) {
@@ -317,10 +324,11 @@ public class PlanEditWindow extends Application {
 				warn("Failed to push to server");
 			}
 		}
-		else // buttonType Cancel
+		else if(result.get() == no_save)
 		{
-			assert true;
+			primaryStage.close();
 		}
+
 	}
 	public void warn(String message)
 	{
