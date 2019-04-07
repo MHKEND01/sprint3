@@ -17,9 +17,50 @@
           <void property="name">
            <string>VMOSA_1</string>
           </void>
-          <void property="root">
-           <void property="data">
-            <string>Test vision</string>
+          <void id="Node0" property="root">
+           <void id="ArrayList0" property="children">
+            <void id="Node1" index="0">
+             <void id="ArrayList1" property="children">
+              <void id="Node2" index="0">
+               <void property="children">
+                <void method="add">
+                 <object class="software_masters.planner_networking.Node" id="Node3">
+                  <void property="children">
+                   <void method="add">
+                    <object class="software_masters.planner_networking.Node" id="Node4">
+                     <void property="children">
+                      <void method="add">
+                       <object class="software_masters.planner_networking.Node">
+                        <void property="name">
+                         <string>Assessment</string>
+                        </void>
+                        <void property="parent">
+                         <object idref="Node4"/>
+                        </void>
+                       </object>
+                      </void>
+                     </void>
+                     <void property="name">
+                      <string>Action Plan</string>
+                     </void>
+                     <void property="parent">
+                      <object idref="Node3"/>
+                     </void>
+                    </object>
+                   </void>
+                  </void>
+                  <void property="name">
+                   <string>Strategy</string>
+                  </void>
+                  <void property="parent">
+                   <object idref="Node2"/>
+                  </void>
+                 </object>
+                </void>
+               </void>
+              </void>
+             </void>
+            </void>
            </void>
           </void>
          </object>
@@ -31,19 +72,6 @@
       </void>
      </void>
     </void>
-   </void>
-  </void>
-  <void property="planTemplateMap">
-   <void method="put">
-    <string>IowaState</string>
-    <object class="software_masters.planner_networking.PlanFile">
-     <void property="canEdit">
-      <boolean>true</boolean>
-     </void>
-     <void property="plan">
-      <object class="software_masters.planner_networking.IowaState"/>
-     </void>
-    </object>
    </void>
   </void>
  </object>

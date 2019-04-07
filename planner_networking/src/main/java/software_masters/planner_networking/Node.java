@@ -29,6 +29,14 @@ public class Node implements Serializable
 	 */
 	public Node(Node parent, String name, String data, ArrayList<Node> child) throws RemoteException
 	{
+		if(name == null)
+		{
+			name = "";
+		}
+		if(data == null)
+		{
+			data = "";
+		}
 		this.name = name;
 		this.parent = parent;
 		this.data = data;
@@ -38,7 +46,7 @@ public class Node implements Serializable
 	// empty constructor for XML
 	public Node() throws RemoteException
 	{
-		this(null, "blank", "empty", null);
+		this(null, "", "", null);
 	}
 
 	// Getter and setters

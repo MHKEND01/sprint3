@@ -56,7 +56,7 @@ public class VMOSA extends Plan
 			for (int i = (this.getList().indexOf(parent.getName())) + 1; i < this.getList().size(); i++)
 			{
 
-				Node newNode = new Node(parent, this.getList().get(i), null, null);
+				Node newNode = new Node(parent, this.getList().get(i), "", null);
 
 				parent.addChild(newNode);
 				parent = newNode;

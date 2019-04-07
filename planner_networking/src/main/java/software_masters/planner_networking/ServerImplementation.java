@@ -532,7 +532,7 @@ public class ServerImplementation implements Server
 		Registry registry;
 		try
 		{
-			registry = LocateRegistry.createRegistry(1069);
+			registry = LocateRegistry.createRegistry(1070);
 			server = ServerImplementation.load();
 		} catch (FileNotFoundException e)
 		{
