@@ -138,7 +138,11 @@ public class PlanEditWindow extends Application {
 		
 		Button deleteButton = new Button();
 		deleteButton.setText("Delete");
-		deleteButton.setOnAction(e -> warnOnDelete());
+		deleteButton.setOnAction(e -> {
+			TreeItem<Node> temp=tree.getSelectionModel().getSelectedItem();
+			control.updateNodeText(temp.getValue(), titleText.getText(), contentText.getText());
+			warnOnDelete();
+		});
 		toolPane.getChildren().add(deleteButton);
 		
 		Region spacer = new Region();
@@ -339,8 +343,8 @@ public class PlanEditWindow extends Application {
 	 */
 	private void initialize() throws RemoteException, NotBoundException
 	{
-		String hostName = "10.14.1.66";
-		Registry registry = LocateRegistry.getRegistry(hostName, 1071);
+		String hostName = "10.14.1.69";
+		Registry registry = LocateRegistry.getRegistry(hostName, 1060);
 		Server stub = (Server) registry.lookup("PlannerServer");
 		Client client = new Client(stub);
 		this.model = new ClientModel(client);

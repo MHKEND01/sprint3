@@ -12,6 +12,7 @@ import java.rmi.RemoteException;
 public class Node implements Serializable
 {
 	private static final long serialVersionUID = 5908372020728915437L;
+	private int id;
 	private Node parent;
 	private String name;
 	private String data;
@@ -27,7 +28,7 @@ public class Node implements Serializable
 	 * @param data   data for node
 	 * @param child  list of children
 	 */
-	public Node(Node parent, String name, String data, ArrayList<Node> child) throws RemoteException
+	public Node(Node parent, String name, String data, int id) throws RemoteException
 	{
 		if(name == null)
 		{
@@ -40,13 +41,14 @@ public class Node implements Serializable
 		this.name = name;
 		this.parent = parent;
 		this.data = data;
+		this.id=id;
 
 	}
 
 	// empty constructor for XML
 	public Node() throws RemoteException
 	{
-		this(null, "", "", null);
+		this(null, "", "", 0);
 	}
 
 	// Getter and setters
@@ -142,6 +144,40 @@ public class Node implements Serializable
 		this.children.remove(child);
 	}
 
+	@Override
+	public String toString()
+	{
+		return this.getName();
+	}
+
+	/**
+	 * @return the serialversionuid
+	 */
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	/**
+	 * @param children the children to set
+	 */
+	public void setChildren(ArrayList<Node> children) {
+		this.children = children;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -159,8 +195,8 @@ public class Node implements Serializable
 		Node other = (Node) obj;
 		if (children == null)
 		{
-			if (other.children != null)
-				return false;
+		if (other.children != null)
+			return false;
 		} else if (!children.equals(other.children))
 			return false;
 		if (data == null)
@@ -180,27 +216,10 @@ public class Node implements Serializable
 			if (other.parent != null)
 				return false;
 		}
+		if (id != other.id) {
+			return false;
+		}
 		return true;
-	}
-	
-	@Override
-	public String toString()
-	{
-		return this.getName();
-	}
-
-	/**
-	 * @return the serialversionuid
-	 */
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	/**
-	 * @param children the children to set
-	 */
-	public void setChildren(ArrayList<Node> children) {
-		this.children = children;
 	}
 
 }

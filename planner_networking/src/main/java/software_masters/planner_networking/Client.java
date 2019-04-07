@@ -140,6 +140,7 @@ public class Client
 	public void addBranch() throws IllegalArgumentException, RemoteException
 	{
 		this.currPlanFile.getPlan().addNode(this.currNode.getParent());
+		
 	}
 
 	/**

@@ -15,6 +15,7 @@ public abstract class Plan implements Serializable// extends UnicastRemoteObject
 	private String name;
 	private ArrayList<String> defaultNodes = new ArrayList<String>();
 	private Node root;
+	private int idGen=0;
 
 	/**
 	 * @throws RemoteException
@@ -36,10 +37,12 @@ public abstract class Plan implements Serializable// extends UnicastRemoteObject
 	 */
 	protected void addDefaultNodes() throws RemoteException
 	{
-		root=new Node(null,this.defaultNodes.get(0),"", null);
+		idGen++;
+		root=new Node(null,this.defaultNodes.get(0),"", idGen);
 		Node current=root,temp;
 		for(int i=1;i<this.defaultNodes.size();i++) {
-			temp=new Node(current,this.defaultNodes.get(i),"", null);
+			idGen++;
+			temp=new Node(current,this.defaultNodes.get(i),"", idGen);
 			current.addChild(temp);
 			current=temp;
 		}
@@ -112,6 +115,49 @@ public abstract class Plan implements Serializable// extends UnicastRemoteObject
 		this.name = name;
 	}
 
+
+	/**
+	 * @return the defaultNodes
+	 */
+	public ArrayList<String> getDefaultNodes() {
+		return defaultNodes;
+	}
+
+	/**
+	 * @param defaultNodes the defaultNodes to set
+	 */
+	public void setDefaultNodes(ArrayList<String> defaultNodes) {
+		this.defaultNodes = defaultNodes;
+	}
+
+	/**
+	 * @return the serialversionuid
+	 */
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	/**
+	 * @param root the root to set
+	 */
+	public void setRoot(Node root) {
+		this.root = root;
+	}
+
+	/**
+	 * @return the idGen
+	 */
+	public int getIdGen() {
+		return idGen;
+	}
+
+	/**
+	 * @param idGen the idGen to set
+	 */
+	public void setIdGen(int idGen) {
+		this.idGen = idGen;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -147,33 +193,4 @@ public abstract class Plan implements Serializable// extends UnicastRemoteObject
 			return false;
 		return true;
 	}
-
-	/**
-	 * @return the defaultNodes
-	 */
-	public ArrayList<String> getDefaultNodes() {
-		return defaultNodes;
-	}
-
-	/**
-	 * @param defaultNodes the defaultNodes to set
-	 */
-	public void setDefaultNodes(ArrayList<String> defaultNodes) {
-		this.defaultNodes = defaultNodes;
-	}
-
-	/**
-	 * @return the serialversionuid
-	 */
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	/**
-	 * @param root the root to set
-	 */
-	public void setRoot(Node root) {
-		this.root = root;
-	}
-
 }

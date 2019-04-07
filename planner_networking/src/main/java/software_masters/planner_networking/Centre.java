@@ -42,6 +42,7 @@ public class Centre extends Plan
 	 */
 	public boolean addNode(Node parent) throws RemoteException, IllegalArgumentException
 	{
+		int tempCount=0;
 		if (parent == null)
 		{
 			throw new IllegalArgumentException("Cannot add to this parent");
@@ -50,8 +51,10 @@ public class Centre extends Plan
 		{
 			for (int i = (this.getList().indexOf(parent.getName())) + 1; i < this.getList().size(); i++)
 			{
-
-				Node newNode = new Node(parent, this.getList().get(i), "", null);
+				tempCount=this.getIdGen();
+				tempCount++;
+				this.setIdGen(tempCount);
+				Node newNode = new Node(parent, this.getList().get(i), "", this.getIdGen());
 
 				parent.addChild(newNode);
 				parent = newNode;
