@@ -148,4 +148,32 @@ public abstract class Plan implements Serializable// extends UnicastRemoteObject
 		return true;
 	}
 
+	/**
+	 * @return the defaultNodes
+	 */
+	public ArrayList<String> getDefaultNodes() {
+		return defaultNodes;
+	}
+
+	/**
+	 * @param defaultNodes the defaultNodes to set
+	 */
+	public void setDefaultNodes(ArrayList<String> defaultNodes) {
+		this.defaultNodes = defaultNodes;
+	}
+
+	/**
+	 * @return the serialversionuid
+	 */
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	/**
+	 * @param root the root to set
+	 */
+	public void setRoot(Node root) {
+		this.root = root;
+	}
+
 }

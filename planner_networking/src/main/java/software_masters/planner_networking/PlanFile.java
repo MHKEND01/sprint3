@@ -117,4 +117,11 @@ public class PlanFile implements Serializable // extends UnicastRemoteObject
 		return true;
 	}
 
+	/**
+	 * @return the serialversionuid
+	 */
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 }

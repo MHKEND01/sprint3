@@ -181,4 +181,18 @@ public class Node implements Serializable
 		return this.getName();
 	}
 
+	/**
+	 * @return the serialversionuid
+	 */
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	/**
+	 * @param children the children to set
+	 */
+	public void setChildren(ArrayList<Node> children) {
+		this.children = children;
+	}
+
 }

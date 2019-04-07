@@ -90,4 +90,11 @@ public class Centre extends Plan
 		}
 	}
 
+	/**
+	 * @return the serialversionuid
+	 */
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 }
