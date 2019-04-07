@@ -5,70 +5,57 @@
    <void id="Account0" method="get">
     <string>0</string>
     <void id="Department0" property="department">
-     <void property="planFileMap">
-      <void method="put">
-       <string>2015</string>
-       <object class="software_masters.planner_networking.PlanFile">
-        <void property="canEdit">
-         <boolean>true</boolean>
-        </void>
-        <void property="plan">
-         <object class="software_masters.planner_networking.VMOSA" id="VMOSA0">
-          <void property="name">
-           <string>VMOSA_1</string>
-          </void>
-          <void id="Node0" property="root">
-           <void id="ArrayList0" property="children">
-            <void id="Node1" index="0">
-             <void id="ArrayList1" property="children">
-              <void id="Node2" index="0">
-               <void property="children">
-                <void method="add">
-                 <object class="software_masters.planner_networking.Node" id="Node3">
-                  <void property="children">
-                   <void method="add">
-                    <object class="software_masters.planner_networking.Node" id="Node4">
-                     <void property="children">
-                      <void method="add">
-                       <object class="software_masters.planner_networking.Node">
-                        <void property="name">
-                         <string>Assessment</string>
-                        </void>
-                        <void property="parent">
-                         <object idref="Node4"/>
-                        </void>
-                       </object>
+     <void id="ConcurrentHashMap1" property="planFileMap">
+      <void id="PlanFile0" method="get">
+       <string>2018</string>
+       <void id="VMOSA0" property="plan">
+        <void id="Node0" property="root">
+         <void id="ArrayList0" property="children">
+          <void id="Node1" index="0">
+           <void id="ArrayList1" property="children">
+            <void id="Node2" index="0">
+             <void property="children">
+              <void method="add">
+               <object class="software_masters.planner_networking.Node" id="Node3">
+                <void property="children">
+                 <void method="add">
+                  <object class="software_masters.planner_networking.Node" id="Node4">
+                   <void property="children">
+                    <void method="add">
+                     <object class="software_masters.planner_networking.Node">
+                      <void property="name">
+                       <string>Assessment</string>
                       </void>
-                     </void>
-                     <void property="name">
-                      <string>Action Plan</string>
-                     </void>
-                     <void property="parent">
-                      <object idref="Node3"/>
-                     </void>
-                    </object>
+                      <void property="parent">
+                       <object idref="Node4"/>
+                      </void>
+                     </object>
+                    </void>
                    </void>
-                  </void>
-                  <void property="name">
-                   <string>Strategy</string>
-                  </void>
-                  <void property="parent">
-                   <object idref="Node2"/>
-                  </void>
-                 </object>
+                   <void property="name">
+                    <string>Action Plan</string>
+                   </void>
+                   <void property="parent">
+                    <object idref="Node3"/>
+                   </void>
+                  </object>
+                 </void>
                 </void>
-               </void>
+                <void property="name">
+                 <string>Strategy</string>
+                </void>
+                <void property="parent">
+                 <object idref="Node2"/>
+                </void>
+               </object>
               </void>
              </void>
             </void>
            </void>
           </void>
-         </object>
+         </void>
         </void>
-        <void property="year">
-         <string>2015</string>
-        </void>
-       </object>
+       </void>
       </void>
      </void>
     </void>

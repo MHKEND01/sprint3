@@ -131,21 +131,14 @@ public class PlanEditWindow extends Application {
 				control.addSection();
 			} catch (IllegalArgumentException | RemoteException e2) {
 				// TODO Auto-generated catch block
-				e2.printStackTrace();
+				warn("Cannot add another section of this type");
 			}
 		});
 		toolPane.getChildren().add(addChildButton);
 		
 		Button deleteButton = new Button();
 		deleteButton.setText("Delete");
-		deleteButton.setOnAction(e -> {
-			try {
-				control.deleteSection();
-			} catch (IllegalArgumentException | RemoteException e2) {
-				// TODO Auto-generated catch block
-				e2.printStackTrace();
-			}
-		});
+		deleteButton.setOnAction(e -> warnOnDelete());
 		toolPane.getChildren().add(deleteButton);
 		
 		Region spacer = new Region();
@@ -194,34 +187,6 @@ public class PlanEditWindow extends Application {
 		centerPane.getChildren().add(contentText);
 
 		mainPane.setCenter(centerPane);
-	}
-	
-	/**Sets up client, controller, model, connects to server, and logs in.
-	 * @throws RemoteException
-	 * @throws NotBoundException
-	 */
-	private void initialize() throws RemoteException, NotBoundException
-	{
-		String hostName = "10.14.1.66";
-		Registry registry = LocateRegistry.getRegistry(hostName, 1070);
-		Server stub = (Server) registry.lookup("PlannerServer");
-		Client client = new Client(stub);
-		this.model = new ClientModel(client);
-		this.model.addView(this);
-		control = new PlanEditController(model);
-		login();
-		
-	}
-	
-	/**Logs in
-	 * @param client
-	 * @throws IllegalArgumentException
-	 * @throws RemoteException
-	 */
-	private void login() throws IllegalArgumentException, RemoteException
-	{
-		control.login("admin", "admin");
-		control.setPlanFile("2018");
 	}
 	
 	public void updatePlan()
@@ -330,6 +295,35 @@ public class PlanEditWindow extends Application {
 		}
 
 	}
+	
+	/**
+	 * Creates popup window asking user if they want to delete the current section
+	 */
+	public void warnOnDelete()
+	{
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Delete Branch?");
+		alert.setHeaderText("Are you sure you wish to delete this section?");
+		alert.setContentText("You will not be able to recover this section and all dependent sections.");
+	
+		ButtonType delete=new ButtonType("Delete");
+		alert.getButtonTypes().setAll(delete, ButtonType.CANCEL);
+		
+		Optional<ButtonType> result = alert.showAndWait();
+		if(result.get() == delete)
+		{
+			try {
+				control.deleteSection();
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				warn("Cannot Delete this Node");
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				warn("Failed to connect to server");
+			}
+		}
+
+	}
 	public void warn(String message)
 	{
 		Alert alert = new Alert(AlertType.WARNING);
@@ -337,6 +331,34 @@ public class PlanEditWindow extends Application {
 		alert.setHeaderText(message);
 		alert.setContentText(null);
 		alert.showAndWait();
+	}
+	
+	/**Sets up client, controller, model, connects to server, and logs in.
+	 * @throws RemoteException
+	 * @throws NotBoundException
+	 */
+	private void initialize() throws RemoteException, NotBoundException
+	{
+		String hostName = "10.14.1.66";
+		Registry registry = LocateRegistry.getRegistry(hostName, 1071);
+		Server stub = (Server) registry.lookup("PlannerServer");
+		Client client = new Client(stub);
+		this.model = new ClientModel(client);
+		this.model.addView(this);
+		control = new PlanEditController(model);
+		login();
+		
+	}
+	
+	/**Logs in
+	 * @param client
+	 * @throws IllegalArgumentException
+	 * @throws RemoteException
+	 */
+	private void login() throws IllegalArgumentException, RemoteException
+	{
+		control.login("admin", "admin");
+		control.setPlanFile("2018");
 	}
 
 }

@@ -528,11 +528,12 @@ public class ServerImplementation implements Server
 	public static void main(String[] args) throws RemoteException
 	{
 		System.out.println("Start Server");
-		ServerImplementation server;
+		ServerImplementation server = new ServerImplementation();
+		server.save();
 		Registry registry;
 		try
 		{
-			registry = LocateRegistry.createRegistry(1070);
+			registry = LocateRegistry.createRegistry(1071);
 			server = ServerImplementation.load();
 		} catch (FileNotFoundException e)
 		{
