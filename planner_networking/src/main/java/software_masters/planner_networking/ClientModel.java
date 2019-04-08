@@ -1,19 +1,16 @@
-/**
- * 
- */
 package software_masters.planner_networking;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 /**
- * @author lee.kendall
- *
+ * @author lee and wesley
+ *	Backend of application. This allows the controller to interact with the client.
+ * Uses observer pattern to update views of a state change.
  */
 public class ClientModel {
 	/**
 	 * A Model-View-Controller model which encapsulates the client from sprint 2.
-	 * 
 	 */
 
 	private Client client;
@@ -25,20 +22,19 @@ public class ClientModel {
 	/**
 	 * Adds view
 	 * 
-	 * @param window
+	 * @param window a view object/observer
 	 */
 	public void addView(PlanEditWindow window) { views.add(window); }
 
 	/**
 	 * Removes view
 	 * 
-	 * @param window
+	 * @param window a view object/observer
 	 */
 	public void removeView(PlanEditWindow window) { views.remove(window); }
 
 	/**
 	 * Notifies views of a change
-	 * 
 	 */
 	public void notifyViews() { views.forEach(n -> n.updatePlan()); }
 
@@ -46,9 +42,9 @@ public class ClientModel {
 	 * Updates the text content and name of a node, and changes currently accessed
 	 * node
 	 * 
-	 * @param node
-	 * @param titleText
-	 * @param contentText
+	 * @param node plan section to be updated
+	 * @param titleText title of plan section
+	 * @param contentText content of plan section
 	 */
 	public void updateNodeText(Node node, String titleText, String contentText) {
 		client.editData(contentText);
@@ -90,8 +86,11 @@ public class ClientModel {
 	/**
 	 * Logs in
 	 * 
-	 * @throws IllegalArgumentException
-	 * @throws RemoteException
+	 * @param username client's user name
+	 * @param password client's password
+	 * 
+	 * @throws IllegalArgumentException if invalid credentials are given
+	 * @throws RemoteException if cannot connect to server
 	 */
 	public void login(String username, String password) throws IllegalArgumentException, RemoteException {
 		client.login(username, password);
@@ -100,9 +99,9 @@ public class ClientModel {
 	/**
 	 * Sets client's plan and notifies views that the model has a plan.
 	 * 
-	 * @param year
-	 * @throws IllegalArgumentException
-	 * @throws RemoteException
+	 * @param year year of plan to retrieve from server
+	 * @throws IllegalArgumentException if a plan of that year does not exist
+	 * @throws RemoteException if cannot connect to server
 	 */
 	public void setPlanFile(String year) throws IllegalArgumentException, RemoteException {
 		client.getPlan(year);
@@ -116,12 +115,11 @@ public class ClientModel {
 	public PlanFile getPlanFile() { return client.getCurrPlanFile(); }
 
 	/**
-	 * Saves the current state of the planfile after updating the year if changed,
-	 * if allowed
+	 * Saves the current state of the business plan based on year.
 	 * 
-	 * @param year
-	 * @throws IllegalArgumentException
-	 * @throws RemoteException
+	 * @param year year to save a plan to
+	 * @throws IllegalArgumentException if the plan of provided year is not editable
+	 * @throws RemoteException if cannot connect to server
 	 */
 	public void savePlan(String year) throws IllegalArgumentException, RemoteException {
 		client.getCurrPlanFile().setYear(year);
@@ -132,8 +130,8 @@ public class ClientModel {
 	/**
 	 * Adds a new section to the business plan
 	 * 
-	 * @throws IllegalArgumentException
-	 * @throws RemoteException
+	 * @throws IllegalArgumentException if section cannot be duplicated
+	 * @throws RemoteException if cannot connect to server
 	 */
 	public void addSection() throws IllegalArgumentException, RemoteException {
 		client.addBranch();
@@ -143,10 +141,10 @@ public class ClientModel {
 	}
 
 	/**
-	 * removes a section from the business plan if allowed
+	 * removes a section from the business plan
 	 * 
-	 * @throws IllegalArgumentException
-	 * @throws RemoteException
+	 * @throws IllegalArgumentException if section cannot be deleted
+	 * @throws RemoteException if cannot connect to server
 	 */
 	public void deleteSection() throws IllegalArgumentException, RemoteException {
 		client.removeBranch();
@@ -156,12 +154,12 @@ public class ClientModel {
 	}
 
 	/**
-	 * @return the isSaved
+	 * @return boolean indicating if the view has made an edit since last save
 	 */
 	public boolean isSaved() { return isSaved; }
 
 	/**
-	 * @param isSaved the isSaved to set
+	 * @param isSaved boolean indicating if the view has made an edit since last save
 	 */
 	public void setSaved(boolean isSaved) { this.isSaved = isSaved; }
 }

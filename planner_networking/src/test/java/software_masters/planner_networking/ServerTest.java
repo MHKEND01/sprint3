@@ -34,7 +34,7 @@ public class ServerTest {
 	 * This method tests that a new type of business plan can be added to server by
 	 * a developer
 	 * 
-	 * @throws RemoteException
+	 * @throws RemoteException if cannot connect to server
 	 */
 	@Test
 	public void testAddPlanTemplate() throws RemoteException {

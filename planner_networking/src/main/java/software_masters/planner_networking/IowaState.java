@@ -11,7 +11,7 @@ public class IowaState extends Plan {
 	private static final long serialVersionUID = 3096239674948462908L;
 
 	/**
-	 * @throws RemoteException
+	 * @throws RemoteException if cannot connect to server
 	 */
 	public IowaState() throws RemoteException { super(); }
 

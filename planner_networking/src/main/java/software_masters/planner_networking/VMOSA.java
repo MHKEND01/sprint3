@@ -10,7 +10,7 @@ public class VMOSA extends Plan {
 	private static final long serialVersionUID = 8514352878071159404L;
 
 	/**
-	 * @throws RemoteException
+	 * @throws RemoteException if cannot connect to server
 	 */
 	public VMOSA() throws RemoteException { super(); }
 
@@ -28,7 +28,7 @@ public class VMOSA extends Plan {
 	 * 
 	 * @param parent parent node of node that needs to be added
 	 * @return boolean true if added
-	 * @throws RemoteException
+	 * @throws RemoteException if cannot connect to server
 	 */
 	public boolean addNode(Node parent) throws RemoteException, IllegalArgumentException {
 		int tempCount = 0;

@@ -1,0 +1,8 @@
+.root{
+	-fx-background-color: lightgray;
+}
+
+#toolbar_hbox{
+	-fx-padding: 5;
+}
+

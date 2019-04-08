@@ -67,7 +67,7 @@ public class RemoteClientTest {
 	 * Verifies that the login method works by returning a valid cookie from a valid
 	 * login.
 	 * 
-	 * @throws RemoteException
+	 * @throws RemoteException if cannot connect to server
 	 * @throws IllegalArgumentException
 	 */
 	@Test
@@ -88,7 +88,7 @@ public class RemoteClientTest {
 	/**
 	 * Verifies addUser method works and that only admins can call it
 	 * 
-	 * @throws RemoteException
+	 * @throws RemoteException if cannot connect to server
 	 * @throws IllegalArgumentException
 	 * 
 	 */
@@ -128,7 +128,7 @@ public class RemoteClientTest {
 	/**
 	 * Verifies addDepartment method works and that only admins can call it
 	 * 
-	 * @throws RemoteException
+	 * @throws RemoteException if cannot connect to server
 	 * @throws IllegalArgumentException
 	 */
 	@Test
@@ -154,7 +154,7 @@ public class RemoteClientTest {
 	/**
 	 * This method verifies that only admins can flag a plan as editable.
 	 * 
-	 * @throws RemoteException
+	 * @throws RemoteException if cannot connect to server
 	 * @throws IllegalArgumentException
 	 */
 	@Test
@@ -181,7 +181,7 @@ public class RemoteClientTest {
 	 * This method verifies that the client can retrieve plans that exist. Throws
 	 * exception if plan does not exist.
 	 * 
-	 * @throws RemoteException
+	 * @throws RemoteException if cannot connect to server
 	 * @throws IllegalArgumentException
 	 */
 	@Test
@@ -204,7 +204,7 @@ public class RemoteClientTest {
 	 * This method verifies that the client can retrieve plan outlines that exist.
 	 * Throws exception if plan outline does not exist.
 	 * 
-	 * @throws RemoteException
+	 * @throws RemoteException if cannot connect to server
 	 */
 	@Test
 	public void testGetPlanOutline() throws RemoteException {
@@ -227,7 +227,7 @@ public class RemoteClientTest {
 	 * Verifies the client can push plans if and only if the planfile flag canEdit
 	 * is true.
 	 * 
-	 * @throws RemoteException
+	 * @throws RemoteException if cannot connect to server
 	 * @throws IllegalArgumentException
 	 */
 	@Test
@@ -262,7 +262,7 @@ public class RemoteClientTest {
 	 * verifies client can add a branch to plan only if the root of that branch is
 	 * allowed to be copied.
 	 * 
-	 * @throws RemoteException
+	 * @throws RemoteException if cannot connect to server
 	 * @throws IllegalArgumentException
 	 * 
 	 */
@@ -310,7 +310,7 @@ public class RemoteClientTest {
 	 * This is a helper method. It tests that a branch is added to plan. It also
 	 * verifies that the new branch is a deep copy of the original branch
 	 * 
-	 * @throws RemoteException
+	 * @throws RemoteException if cannot connect to server
 	 * @throws IllegalArgumentException
 	 */
 	private void testBranchCopy() throws IllegalArgumentException, RemoteException {
@@ -326,7 +326,7 @@ public class RemoteClientTest {
 	 * This method verifies that the centre template enforces remove branch
 	 * constraints. Cannot remove node if only one exists.
 	 * 
-	 * @throws RemoteException
+	 * @throws RemoteException if cannot connect to server
 	 * @throws IllegalArgumentException
 	 */
 	@Test
@@ -354,7 +354,7 @@ public class RemoteClientTest {
 	 * This method verifies that the VMOSA template enforces remove branch
 	 * constraints. Cannot remove node if only one exists.
 	 * 
-	 * @throws RemoteException
+	 * @throws RemoteException if cannot connect to server
 	 */
 	@Test
 	public void testVMOSARemoveBranch() throws RemoteException {
@@ -381,7 +381,7 @@ public class RemoteClientTest {
 	 * This method verifies that the Iowa template enforces remove branch
 	 * constraints. Cannot remove node if only one exists.
 	 * 
-	 * @throws RemoteException
+	 * @throws RemoteException if cannot connect to server
 	 */
 	@Test
 	public void testIowaRemoveBranch() throws RemoteException {

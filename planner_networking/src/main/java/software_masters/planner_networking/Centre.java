@@ -10,15 +10,12 @@ public class Centre extends Plan {
 	private static final long serialVersionUID = 8094008350302564337L;
 
 	/**
-	 * @throws RemoteException
+	 * @throws RemoteException if cannot connect to server
 	 */
 	public Centre() throws RemoteException { super(); }
 
-	// set strings for default stages Centre plan
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see software_masters.planner_networking.Plan#setDefaultStrings()
+	/**
+	 *set strings for default stages Centre plan
 	 */
 	protected void setDefaultStrings() {
 		this.getList().add("Mission");
@@ -34,6 +31,9 @@ public class Centre extends Plan {
 	 * 
 	 * @param parent parent of node that needs to be added
 	 * @return boolean true if added
+	 * 
+	 * @throws IllegalArgumentException if current node cannot be duplicated
+	 * @throws RemoteException if cannot connect to server
 	 */
 	public boolean addNode(Node parent) throws RemoteException, IllegalArgumentException {
 		int tempCount = 0;
@@ -59,6 +59,8 @@ public class Centre extends Plan {
 	 * 
 	 * @param nodeRemove node to be removed
 	 * @return boolean true if removed
+	 * 
+	 * @throws IllegalArgumentException if passed node cannot be removed
 	 */
 	public boolean removeNode(Node nodeRemove) throws IllegalArgumentException {
 		if (nodeRemove == null) {

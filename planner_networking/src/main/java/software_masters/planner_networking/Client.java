@@ -124,7 +124,7 @@ public class Client {
 	 * Adds a new branch to the business plan tree if allowed
 	 * 
 	 * @throws IllegalArgumentException
-	 * @throws RemoteException
+	 * @throws RemoteException if cannot connect to server
 	 */
 	public void addBranch() throws IllegalArgumentException, RemoteException {
 		this.currPlanFile.getPlan().addNode(this.currNode.getParent());

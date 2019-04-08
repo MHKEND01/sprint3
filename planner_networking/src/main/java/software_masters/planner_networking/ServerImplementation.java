@@ -197,7 +197,6 @@ public class ServerImplementation implements Server {
 
 	/**
 	 * Loads server from xml, called in main
-	 * 
 	 * @return
 	 * @throws FileNotFoundException
 	 */
@@ -324,7 +323,7 @@ public class ServerImplementation implements Server {
 	 * Starts the server, allows clients to access it
 	 * 
 	 * @param args
-	 * @throws RemoteException
+	 * @throws RemoteException if cannot connect to server
 	 */
 	public static void main(String[] args) throws RemoteException {
 		System.out.println("Start Server");
@@ -332,7 +331,7 @@ public class ServerImplementation implements Server {
 		server.save();
 		Registry registry;
 		try {
-			registry = LocateRegistry.createRegistry(1060);
+			registry = LocateRegistry.createRegistry(1061);
 			server = ServerImplementation.load();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

@@ -18,7 +18,7 @@ public abstract class Plan implements Serializable// extends UnicastRemoteObject
 	private int idGen = 0;
 
 	/**
-	 * @throws RemoteException
+	 * @throws RemoteException if cannot connect to server
 	 */
 	public Plan() throws RemoteException {
 		defaultNodes = new ArrayList<String>();
@@ -34,7 +34,7 @@ public abstract class Plan implements Serializable// extends UnicastRemoteObject
 	/**
 	 * This class builds default template based on string array
 	 * 
-	 * @throws RemoteException
+	 * @throws RemoteException if cannot connect to server
 	 */
 	protected void addDefaultNodes() throws RemoteException {
 		idGen++;
