@@ -1,6 +1,3 @@
-/**
- * 
- */
 package software_masters.planner_networking;
 
 import java.rmi.NotBoundException;
@@ -20,18 +17,17 @@ import javafx.scene.text.*;
 import javafx.event.*;
 import javafx.geometry.*;
 
-
 /**
- * @author lee.kendall
+ * @author lee and wesley
  *
  */
 public class PlanEditWindow extends Application {
 
 	/**
-	 * Responsible for generating the plan-editing window. Acts as the view in Model-View-Controller.
-	 * @param args
+	 * Responsible for generating the plan-editing window. Acts as the view in
+	 * Model-View-Controller.
 	 */
-	
+
 	private PlanEditController control;
 	private TextField titleText, contentText, yearText;
 	private ClientModel model;
@@ -42,6 +38,10 @@ public class PlanEditWindow extends Application {
 	private Plan plan;
 	private PlanFile planFile;
 	private BorderPane mainPane;
+
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		launch(args);
@@ -51,82 +51,79 @@ public class PlanEditWindow extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
-		
+
 		this.primaryStage = primaryStage;
 		mainPane = new BorderPane();
 		this.scene = new Scene(mainPane);
-		
+
 		initialize();
-		
+
 		primaryStage.setTitle("Plan Edit View");
-		primaryStage.setOnCloseRequest((WindowEvent e) -> { 
+		primaryStage.setOnCloseRequest((WindowEvent e) -> {
 			e.consume();
 			closeWindow();
-			});
+		});
 		primaryStage.show();
 
-		
 	}
+
 	/**
 	 * Converts Business Plan tree into TreeItem tree
+	 * 
 	 * @param root of business plan tree
 	 * @return root of TreeItem tree for TreeView
 	 */
-	public TreeItem<Node> convertTree(Node root)
-	{
+	public TreeItem<Node> convertTree(Node root) {
 		TreeItem<Node> newRoot = new TreeItem<Node>(root);
-		for(int i = 0; i < root.getChildren().size();i++) 
-		{
+		for (int i = 0; i < root.getChildren().size(); i++) {
 			newRoot.getChildren().add(convertTree(root.getChildren().get(i)));
 		}
 		return newRoot;
 	}
-	
+
 	/**
 	 * Displays the navigation bar
+	 * 
 	 * @param mainPane
 	 * @param plan
 	 */
-	public void setNavBar()
-	{
+	public void setNavBar() {
 		TreeItem<Node> item = convertTree(plan.getRoot());
-	    tree = new TreeView<Node>(item);
-	    this.currentlySelectedTreeItem = item;
-	    
+		tree = new TreeView<Node>(item);
+		this.currentlySelectedTreeItem = item;
+
 		tree.refresh();
 		tree.getSelectionModel().select(tree.getRow(this.currentlySelectedTreeItem));
-		tree.getSelectionModel().selectedItemProperty().addListener(e -> 
-		{
-			TreeItem<Node> temp=tree.getSelectionModel().getSelectedItem();
+		tree.getSelectionModel().selectedItemProperty().addListener(e -> {
+			TreeItem<Node> temp = tree.getSelectionModel().getSelectedItem();
 			control.updateNodeText(temp.getValue(), titleText.getText(), contentText.getText());
 			this.currentlySelectedTreeItem = tree.getSelectionModel().getSelectedItem();
 			this.updateContent();
 		});
 		tree.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-		
+
 		Label lbl = new Label();
 		VBox navPane = new VBox(0);
 		tree.prefHeightProperty().bind(navPane.heightProperty().multiply(1));
 
-		
 		navPane.getStyleClass().add("navPane");
-		navPane.getChildren().addAll(tree,lbl);
+		navPane.getChildren().addAll(tree, lbl);
 		mainPane.setLeft(navPane);
 	}
-	
+
 	/**
 	 * Displays the toolbar
+	 * 
 	 * @param mainPane
 	 */
-	public void setToolBar()
-	{
+	public void setToolBar() {
 		HBox toolPane = new HBox(30);
-		
+
 		Button addChildButton = new Button();
 		addChildButton.setText("Add Section");
 		addChildButton.setOnAction(e -> {
 			try {
-				TreeItem<Node> temp=tree.getSelectionModel().getSelectedItem();
+				TreeItem<Node> temp = tree.getSelectionModel().getSelectedItem();
 				control.updateNodeText(temp.getValue(), titleText.getText(), contentText.getText());
 				control.addSection();
 			} catch (IllegalArgumentException | RemoteException e2) {
@@ -135,26 +132,26 @@ public class PlanEditWindow extends Application {
 			}
 		});
 		toolPane.getChildren().add(addChildButton);
-		
+
 		Button deleteButton = new Button();
 		deleteButton.setText("Delete");
 		deleteButton.setOnAction(e -> {
-			TreeItem<Node> temp=tree.getSelectionModel().getSelectedItem();
+			TreeItem<Node> temp = tree.getSelectionModel().getSelectedItem();
 			control.updateNodeText(temp.getValue(), titleText.getText(), contentText.getText());
 			warnOnDelete();
 		});
 		toolPane.getChildren().add(deleteButton);
-		
+
 		Region spacer = new Region();
 		HBox.setHgrow(spacer, Priority.ALWAYS);
 		yearText = new TextField(planFile.getYear());
 		Label yearTextLabel = new Label("Year:");
-		
+
 		Button saveButton = new Button();
 		saveButton.setText("Save");
 		saveButton.setOnAction(e -> {
 			try {
-				TreeItem<Node> temp=tree.getSelectionModel().getSelectedItem();
+				TreeItem<Node> temp = tree.getSelectionModel().getSelectedItem();
 				control.updateNodeText(temp.getValue(), titleText.getText(), contentText.getText());
 				control.savePlan(yearText.getText());
 			} catch (IllegalArgumentException | RemoteException e1) {
@@ -163,26 +160,25 @@ public class PlanEditWindow extends Application {
 			}
 		});
 		toolPane.getChildren().add(saveButton);
-		
+
 		toolPane.getChildren().add(spacer);
 		toolPane.getChildren().add(yearTextLabel);
 		toolPane.getChildren().add(yearText);
-		
+
 		Button logoutButton = new Button();
 		logoutButton.setText("Logout");
 		logoutButton.setOnAction(e -> closeWindow());
 		toolPane.getChildren().add(logoutButton);
-		
+
 		mainPane.setTop(toolPane);
 	}
-	
-	
+
 	/**
 	 * Displays central text-editing pane
+	 * 
 	 * @param mainPane
 	 */
-	public void setContent()
-	{
+	public void setContent() {
 		VBox centerPane = new VBox(5);
 		this.titleText = new TextField(model.getTitle());
 		this.contentText = new TextField(model.getContent());
@@ -192,11 +188,13 @@ public class PlanEditWindow extends Application {
 
 		mainPane.setCenter(centerPane);
 	}
-	
-	public void updatePlan()
-	{
+
+	/**
+	 * Updates view for editing plan after big changes
+	 */
+	public void updatePlan() {
 		primaryStage.setMinWidth(250);
-		
+
 		planFile = model.getPlanFile();
 		plan = planFile.getPlan();
 		mainPane = new BorderPane();
@@ -204,84 +202,79 @@ public class PlanEditWindow extends Application {
 		setNavBar();
 		setToolBar();
 		setContent();
-		
+
 		this.scene.setRoot(mainPane);
-		
+
 		primaryStage.setScene(scene);
 	}
-	
-	public void updateContent()
-	{
+
+	/**
+	 * Updates view for editing plan when section is changed
+	 */
+	public void updateContent() {
 		primaryStage.setMinWidth(250);
-	    
+
 		tree.refresh();
 		expandTreeView(this.currentlySelectedTreeItem);
 		tree.getSelectionModel().select(tree.getRow(this.currentlySelectedTreeItem));
 		setContent();
 
-		
 		this.scene.setRoot(mainPane);
-		
+
 		primaryStage.setScene(scene);
 	}
-	
-	private void expandTreeView( TreeItem<Node> selectedItem ) 
-	{
-	    if ( selectedItem != null ) 
-	    {
-	        expandTreeView( selectedItem.getParent() );
 
-	        if ( ! selectedItem.isLeaf() ) 
-	        {
-	            selectedItem.setExpanded( true );
-	        }
-	    }
-	}
-	
-	/**Upon closing the window, determines if there are any changes which may need to be saved first.
-	 * If so, a warning popup is displayed.
-	 * 
+	/**
+	 * This method ensures treeview stays expanded and selected plan section is highlighted. 
+	 * @param selectedItem
 	 */
-	public void closeWindow()
-	{
+	private void expandTreeView(TreeItem<Node> selectedItem) {
+		if (selectedItem != null) {
+			expandTreeView(selectedItem.getParent());
+
+			if (!selectedItem.isLeaf()) { selectedItem.setExpanded(true); }
+		}
+	}
+
+	/**
+	 * Upon closing the window, determines if there are any changes which may need
+	 * to be saved first. If so, a warning popup is displayed.
+	 */
+	public void closeWindow() {
 		String currContent = contentText.getText();
 		String currTitle = titleText.getText();
 		String currYear = yearText.getText();
-		
-		if(!currContent.equals(model.getContent()) || !currTitle.equals(model.getTitle()) || !currYear.equals(model.getYear()))
-		{
+
+		if (!currContent.equals(model.getContent()) || !currTitle.equals(model.getTitle())
+				|| !currYear.equals(model.getYear())) {
 			control.setSaved(false);
 		}
-		
-		if(!model.isSaved())
-		{
+
+		if (!model.isSaved()) {
 			warnToSave();
-		}else {
+		} else {
 			primaryStage.close();
 		}
-		
 
 	}
-	
+
 	/**
 	 * Creates popup window asking user if they want to exit without saving
 	 */
-	public void warnToSave()
-	{
+	public void warnToSave() {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle(" Save Plan?");
 		alert.setHeaderText("Save document before closing?");
 		alert.setContentText("Your changes will be lost if you do not save.");
-	
-		ButtonType save=new ButtonType("Save");
-		ButtonType no_save=new ButtonType("Dont Save");
+
+		ButtonType save = new ButtonType("Save");
+		ButtonType no_save = new ButtonType("Dont Save");
 		alert.getButtonTypes().setAll(save, no_save, ButtonType.CANCEL);
-		
+
 		Optional<ButtonType> result = alert.showAndWait();
-		if(result.get() == save)
-		{
+		if (result.get() == save) {
 			try {
-				TreeItem<Node> temp=tree.getSelectionModel().getSelectedItem();
+				TreeItem<Node> temp = tree.getSelectionModel().getSelectedItem();
 				control.updateNodeText(temp.getValue(), titleText.getText(), contentText.getText());
 				control.savePlan(yearText.getText());
 				primaryStage.close();
@@ -292,30 +285,24 @@ public class PlanEditWindow extends Application {
 				// TODO Auto-generated catch block
 				warn("Failed to push to server");
 			}
-		}
-		else if(result.get() == no_save)
-		{
-			primaryStage.close();
-		}
+		} else if (result.get() == no_save) { primaryStage.close(); }
 
 	}
-	
+
 	/**
 	 * Creates popup window asking user if they want to delete the current section
 	 */
-	public void warnOnDelete()
-	{
+	public void warnOnDelete() {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Delete Branch?");
 		alert.setHeaderText("Are you sure you wish to delete this section?");
 		alert.setContentText("You will not be able to recover this section and all dependent sections.");
-	
-		ButtonType delete=new ButtonType("Delete");
+
+		ButtonType delete = new ButtonType("Delete");
 		alert.getButtonTypes().setAll(delete, ButtonType.CANCEL);
-		
+
 		Optional<ButtonType> result = alert.showAndWait();
-		if(result.get() == delete)
-		{
+		if (result.get() == delete) {
 			try {
 				control.deleteSection();
 			} catch (IllegalArgumentException e) {
@@ -328,22 +315,26 @@ public class PlanEditWindow extends Application {
 		}
 
 	}
-	public void warn(String message)
-	{
+
+	/**
+	 * @param message
+	 */
+	public void warn(String message) {
 		Alert alert = new Alert(AlertType.WARNING);
 		alert.setTitle("Warning Dialog");
 		alert.setHeaderText(message);
 		alert.setContentText(null);
 		alert.showAndWait();
 	}
-	
-	/**Sets up client, controller, model, connects to server, and logs in.
+
+	/**
+	 * Sets up client, controller, model, connects to server, and logs in.
+	 * 
 	 * @throws RemoteException
 	 * @throws NotBoundException
 	 */
-	private void initialize() throws RemoteException, NotBoundException
-	{
-		String hostName = "10.14.1.69";
+	private void initialize() throws RemoteException, NotBoundException {
+		String hostName = "127.0.0.1";
 		Registry registry = LocateRegistry.getRegistry(hostName, 1060);
 		Server stub = (Server) registry.lookup("PlannerServer");
 		Client client = new Client(stub);
@@ -351,16 +342,17 @@ public class PlanEditWindow extends Application {
 		this.model.addView(this);
 		control = new PlanEditController(model);
 		login();
-		
+
 	}
-	
-	/**Logs in
+
+	/**
+	 * Logs in
+	 * 
 	 * @param client
 	 * @throws IllegalArgumentException
 	 * @throws RemoteException
 	 */
-	private void login() throws IllegalArgumentException, RemoteException
-	{
+	private void login() throws IllegalArgumentException, RemoteException {
 		control.login("admin", "admin");
 		control.setPlanFile("2018");
 	}

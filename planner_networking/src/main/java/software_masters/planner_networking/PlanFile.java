@@ -20,8 +20,7 @@ public class PlanFile implements Serializable // extends UnicastRemoteObject
 	 * @param canEdit
 	 * @param plan
 	 */
-	public PlanFile(String year, boolean canEdit, Plan plan) throws RemoteException
-	{
+	public PlanFile(String year, boolean canEdit, Plan plan) throws RemoteException {
 		this.year = year;
 		this.canEdit = canEdit;
 		this.plan = plan;
@@ -30,8 +29,7 @@ public class PlanFile implements Serializable // extends UnicastRemoteObject
 	/**
 	 * Default constructor for serialization
 	 */
-	public PlanFile() throws RemoteException
-	{
+	public PlanFile() throws RemoteException {
 		this.year = null;
 		this.canEdit = false;
 		this.plan = null;
@@ -40,50 +38,32 @@ public class PlanFile implements Serializable // extends UnicastRemoteObject
 	/**
 	 * @return the year
 	 */
-	public String getYear()
-	{
-		return year;
-	}
+	public String getYear() { return year; }
 
 	/**
 	 * @param year the year to set
 	 */
-	public void setYear(String year)
-	{
-		this.year = year;
-	}
+	public void setYear(String year) { this.year = year; }
 
 	/**
 	 * @return the canEdit
 	 */
-	public boolean isCanEdit()
-	{
-		return canEdit;
-	}
+	public boolean isCanEdit() { return canEdit; }
 
 	/**
 	 * @param canEdit the canEdit to set
 	 */
-	public void setCanEdit(boolean canEdit)
-	{
-		this.canEdit = canEdit;
-	}
+	public void setCanEdit(boolean canEdit) { this.canEdit = canEdit; }
 
 	/**
 	 * @return the plan
 	 */
-	public Plan getPlan()
-	{
-		return plan;
-	}
+	public Plan getPlan() { return plan; }
 
 	/**
 	 * @param plan the plan to set
 	 */
-	public void setPlan(Plan plan)
-	{
-		this.plan = plan;
-	}
+	public void setPlan(Plan plan) { this.plan = plan; }
 
 	/*
 	 * (non-Javadoc)
@@ -91,37 +71,24 @@ public class PlanFile implements Serializable // extends UnicastRemoteObject
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj)
-	{
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (getClass() != obj.getClass()) return false;
 		PlanFile other = (PlanFile) obj;
-		if (canEdit != other.canEdit)
-			return false;
-		if (plan == null)
-		{
-			if (other.plan != null)
-				return false;
-		} else if (!plan.equals(other.plan))
-			return false;
-		if (year == null)
-		{
-			if (other.year != null)
-				return false;
-		} else if (!year.equals(other.year))
-			return false;
+		if (canEdit != other.canEdit) return false;
+		if (plan == null) {
+			if (other.plan != null) return false;
+		} else if (!plan.equals(other.plan)) return false;
+		if (year == null) {
+			if (other.year != null) return false;
+		} else if (!year.equals(other.year)) return false;
 		return true;
 	}
 
 	/**
 	 * @return the serialversionuid
 	 */
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+	public static long getSerialversionuid() { return serialVersionUID; }
 
 }

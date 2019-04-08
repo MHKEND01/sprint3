@@ -6,25 +6,15 @@ import java.rmi.RemoteException;
  * @author Courtney and Jack
  * @author wesley and lee.
  */
-public class VMOSA extends Plan
-{
+public class VMOSA extends Plan {
 	private static final long serialVersionUID = 8514352878071159404L;
 
 	/**
 	 * @throws RemoteException
 	 */
-	public VMOSA() throws RemoteException
-	{
-		super();
-	}
+	public VMOSA() throws RemoteException { super(); }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see software_masters.planner_networking.Plan#setDefaultStrings()
-	 */
-	protected void setDefaultStrings()
-	{
+	protected void setDefaultStrings() {
 		this.getList().add("Vision");
 		this.getList().add("Mission");
 		this.getList().add("Objective");
@@ -40,24 +30,17 @@ public class VMOSA extends Plan
 	 * @return boolean true if added
 	 * @throws RemoteException
 	 */
-	public boolean addNode(Node parent) throws RemoteException, IllegalArgumentException
-	{
-		int tempCount=0;
-		if (parent == null) 
-		{
+	public boolean addNode(Node parent) throws RemoteException, IllegalArgumentException {
+		int tempCount = 0;
+		if (parent == null) {
 			throw new IllegalArgumentException("Cannot add to this parent");
-		}
-		else if (parent.getName().equals("Vision"))
-		{
+		} else if (parent.getName().equals("Vision")) {
 			throw new IllegalArgumentException("Cannot add to this parent");
-		} 
-		else
-		{
+		} else {
 
-			for (int i = (this.getList().indexOf(parent.getName())) + 1; i < this.getList().size(); i++)
-			{
+			for (int i = (this.getList().indexOf(parent.getName())) + 1; i < this.getList().size(); i++) {
 
-				tempCount=this.getIdGen();
+				tempCount = this.getIdGen();
 				tempCount++;
 				this.setIdGen(tempCount);
 				Node newNode = new Node(parent, this.getList().get(i), "", this.getIdGen());
@@ -75,25 +58,19 @@ public class VMOSA extends Plan
 	 * @param nodeRemove node to be removed
 	 * @return boolean true is removed
 	 */
-	public boolean removeNode(Node nodeRemove) throws IllegalArgumentException
-	{
-		if ( nodeRemove == null) {
+	public boolean removeNode(Node nodeRemove) throws IllegalArgumentException {
+		if (nodeRemove == null) {
 			throw new IllegalArgumentException("Cannot remove this node");
-		}
-		else if (nodeRemove.getParent()==null)
-		{
+		} else if (nodeRemove.getParent() == null) {
 			throw new IllegalArgumentException("Cannot remove this node");
-		} 
-		else if (nodeRemove.getName().equals(this.getRoot().getName()) || nodeRemove.getParent().getChildren().size() == 1)
-		{
-			throw new IllegalArgumentException("Cannot remove this node");
-		} 
-		else
-		{
-			nodeRemove.getParent().removeChild(nodeRemove);
-			nodeRemove.setParent(null);
-			return true;
+		} else if (nodeRemove.getName().equals(this.getRoot().getName())
+				|| nodeRemove.getParent().getChildren().size() == 1) {
+					throw new IllegalArgumentException("Cannot remove this node");
+				} else {
+					nodeRemove.getParent().removeChild(nodeRemove);
+					nodeRemove.setParent(null);
+					return true;
 
-		}
+				}
 	}
 }

@@ -11,18 +11,14 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author wesley murray
  */
 
-public class Department
-{
+public class Department {
 
 	/**
 	 * Object which stores the planFiles of a particular department based on year
 	 */
 	private ConcurrentHashMap<String, PlanFile> planFileMap;
 
-	public Department()
-	{
-		planFileMap = new ConcurrentHashMap<String, PlanFile>();
-	}
+	public Department() { planFileMap = new ConcurrentHashMap<String, PlanFile>(); }
 
 	/**
 	 * Retrieves planFile from department based on year
@@ -31,12 +27,8 @@ public class Department
 	 * @return plan corresponding to the passed year
 	 * @throws IllegalArgumentException
 	 */
-	public PlanFile getPlan(String year) throws IllegalArgumentException
-	{
-		if (planFileMap.containsKey(year))
-		{
-			return planFileMap.get(year);
-		}
+	public PlanFile getPlan(String year) throws IllegalArgumentException {
+		if (planFileMap.containsKey(year)) { return planFileMap.get(year); }
 		throw new IllegalArgumentException("A plan with this year doesn't exist in this department");
 	}
 
@@ -47,59 +39,32 @@ public class Department
 	 * @param year of planFile to be added
 	 * @param plan
 	 */
-	public void addPlan(String year, PlanFile plan)
-	{
-		planFileMap.put(year, plan);
-	}
+	public void addPlan(String year, PlanFile plan) { planFileMap.put(year, plan); }
 
 	/**
 	 * Removes planFile from department hash given a year
+	 * 
 	 * @param year of planFile to be removed
 	 */
-	public void removePlan(String year)
-	{
-		planFileMap.remove(year);
-	}
+	public void removePlan(String year) { planFileMap.remove(year); }
 
 	/**
 	 * Checks if the plan exists within this department
+	 * 
 	 * @param year
 	 * @return
 	 */
-	public boolean containsPlan(String year)
-	{
-		return this.planFileMap.containsKey(year);
-	}
+	public boolean containsPlan(String year) { return this.planFileMap.containsKey(year); }
 
 	/**
 	 * @return the planFileMap
 	 */
-	public ConcurrentHashMap<String, PlanFile> getPlanFileMap()
-	{
-		return planFileMap;
-	}
+	public ConcurrentHashMap<String, PlanFile> getPlanFileMap() { return planFileMap; }
 
 	/**
 	 * @param planFileMap the planFileMap to set
 	 */
-	public void setPlanFileMap(ConcurrentHashMap<String, PlanFile> planFileMap)
-	{
-		this.planFileMap = planFileMap;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode()
-	{
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((planFileMap == null) ? 0 : planFileMap.hashCode());
-		return result;
-	}
+	public void setPlanFileMap(ConcurrentHashMap<String, PlanFile> planFileMap) { this.planFileMap = planFileMap; }
 
 	/*
 	 * (non-Javadoc)
@@ -107,35 +72,23 @@ public class Department
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj)
-	{
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (getClass() != obj.getClass()) return false;
 		Department other = (Department) obj;
-		if (planFileMap == null)
-		{
-			if (other.planFileMap != null)
-				return false;
-		} else if (!Department.<String, PlanFile>hashesEqual(planFileMap, other.planFileMap))
-			return false;
+		if (planFileMap == null) {
+			if (other.planFileMap != null) return false;
+		} else if (!Department.<String, PlanFile>hashesEqual(planFileMap, other.planFileMap)) return false;
 		return true;
 	}
 
-	private static <K, V> boolean hashesEqual(ConcurrentHashMap<K, V> map1, ConcurrentHashMap<K, V> map2)
-	{
-		for (Enumeration<K> keyList = map1.keys(); keyList.hasMoreElements();)
-		{
+	private static <K, V> boolean hashesEqual(ConcurrentHashMap<K, V> map1, ConcurrentHashMap<K, V> map2) {
+		for (Enumeration<K> keyList = map1.keys(); keyList.hasMoreElements();) {
 			K key = keyList.nextElement();
-			if (!map1.containsKey(key))
-				return false;
-			if (!map2.containsKey(key))
-				return false;
-			if (!map1.get(key).equals(map2.get(key)))
-				return false;
+			if (!map1.containsKey(key)) return false;
+			if (!map2.containsKey(key)) return false;
+			if (!map1.get(key).equals(map2.get(key))) return false;
 		}
 		return true;
 	}

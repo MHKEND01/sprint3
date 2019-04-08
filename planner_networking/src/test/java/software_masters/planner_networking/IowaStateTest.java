@@ -13,19 +13,14 @@ import org.junit.Test;
  * @author Courtney and Jack
  *
  */
-public class IowaStateTest
-{
+public class IowaStateTest {
 	@Test
-	public void test() throws RemoteException
-	{
+	public void test() throws RemoteException {
 		// make a new VMOSA plan
 		Plan IowaStatePlan = new IowaState();
 
 		// print out strings in the list
-		for (int i = 0; i < IowaStatePlan.getList().size(); i++)
-		{
-			System.out.println(IowaStatePlan.getList().get(i));
-		}
+		for (int i = 0; i < IowaStatePlan.getList().size(); i++) { System.out.println(IowaStatePlan.getList().get(i)); }
 
 		// get root node
 		Node rootNode = IowaStatePlan.getRoot();
@@ -81,28 +76,23 @@ public class IowaStateTest
 
 	// test invalid arguments
 	@Test
-	public void invalidArguments() throws RemoteException
-	{
+	public void invalidArguments() throws RemoteException {
 		// make plan and set pointer to root
 		Plan IowaStatePlan2 = new IowaState();
 		Node r = IowaStatePlan2.getRoot();
 		// try to remove root
-		try
-		{
+		try {
 			IowaStatePlan2.removeNode(r);
 			fail("My method didn't throw when I expected it to");
-		} catch (IllegalArgumentException e)
-		{
+		} catch (IllegalArgumentException e) {
 			e.getMessage();
 		}
 		// try to add a vision node
-		try
-		{
+		try {
 
 			IowaStatePlan2.addNode(r);
 			fail("My method didn't throw when I expected it to");
-		} catch (IllegalArgumentException e)
-		{
+		} catch (IllegalArgumentException e) {
 			e.getMessage();
 		}
 

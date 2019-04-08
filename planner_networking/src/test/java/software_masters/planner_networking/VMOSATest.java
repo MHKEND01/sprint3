@@ -14,19 +14,14 @@ import org.junit.Test;
  * @author Courtney and Jack
  *
  */
-public class VMOSATest
-{
+public class VMOSATest {
 	@Test
-	public void test() throws RemoteException
-	{
+	public void test() throws RemoteException {
 		// make a new VMOSA plan
 		VMOSA VMOSAPlan = new VMOSA();
 
 		// print out strings in the list
-		for (int i = 0; i < VMOSAPlan.getList().size(); i++)
-		{
-			System.out.println(VMOSAPlan.getList().get(i));
-		}
+		for (int i = 0; i < VMOSAPlan.getList().size(); i++) { System.out.println(VMOSAPlan.getList().get(i)); }
 
 		// get root node
 		Node rootNode = VMOSAPlan.getRoot();
@@ -73,28 +68,23 @@ public class VMOSATest
 
 	// test invalid arguments
 	@Test
-	public void invalidArguments() throws RemoteException
-	{
+	public void invalidArguments() throws RemoteException {
 		// make a plan and set pointer to root
 		Plan VMOSAPlan2 = new VMOSA();
 		Node r = VMOSAPlan2.getRoot();
 		// try to remove root
-		try
-		{
+		try {
 			VMOSAPlan2.removeNode(r);
 			fail("My method didn't throw when I expected it to");
-		} catch (IllegalArgumentException e)
-		{
+		} catch (IllegalArgumentException e) {
 			e.getMessage();
 		}
 		// try to add a vision node
-		try
-		{
+		try {
 
 			VMOSAPlan2.addNode(r);
 			fail("My method didn't throw when I expected it to");
-		} catch (IllegalArgumentException e)
-		{
+		} catch (IllegalArgumentException e) {
 			e.getMessage();
 		}
 	}

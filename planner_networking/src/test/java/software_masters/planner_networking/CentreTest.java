@@ -13,20 +13,15 @@ import org.junit.Test;
  * @author Courtney and Jack
  *
  */
-public class CentreTest
-{
+public class CentreTest {
 
 	@Test
-	public void test() throws RemoteException
-	{
+	public void test() throws RemoteException {
 		// make a new Centre plan
 		Plan CentrePlan = new Centre();
 
 		// print out strings in the list
-		for (int i = 0; i < CentrePlan.getList().size(); i++)
-		{
-			System.out.println(CentrePlan.getList().get(i));
-		}
+		for (int i = 0; i < CentrePlan.getList().size(); i++) { System.out.println(CentrePlan.getList().get(i)); }
 
 		// get root node
 		Node rootNode = CentrePlan.getRoot();
@@ -69,25 +64,20 @@ public class CentreTest
 
 	// test invalid arguments
 	@Test
-	public void invalidArguments() throws RemoteException
-	{
+	public void invalidArguments() throws RemoteException {
 		// make plan and set pointer to root
 		Plan CentrePlan2 = new Centre();
 		Node r = CentrePlan2.getRoot();
 		// try to remove root
-		try
-		{
+		try {
 			CentrePlan2.removeNode(r);
-		} catch (IllegalArgumentException e)
-		{
+		} catch (IllegalArgumentException e) {
 			e.getMessage();
 		}
 		// try to add a mission node
-		try
-		{
+		try {
 			CentrePlan2.addNode(r);
-		} catch (IllegalArgumentException e)
-		{
+		} catch (IllegalArgumentException e) {
 			e.getMessage();
 		}
 	}

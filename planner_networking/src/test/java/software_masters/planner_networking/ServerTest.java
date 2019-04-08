@@ -20,21 +20,15 @@ import org.junit.Test;
  *         Centre
  *
  */
-public class ServerTest
-{
+public class ServerTest {
 
 	static Server testServer;
 
 	@BeforeClass
-	public static void setUpBeforeClass() throws Exception
-	{
-		testServer = (Server) new ServerImplementation();
-	}
+	public static void setUpBeforeClass() throws Exception { testServer = (Server) new ServerImplementation(); }
 
 	@AfterClass
-	public static void tearDownAfterClass() throws Exception
-	{
-	}
+	public static void tearDownAfterClass() throws Exception {}
 
 	/**
 	 * This method tests that a new type of business plan can be added to server by
@@ -43,8 +37,7 @@ public class ServerTest
 	 * @throws RemoteException
 	 */
 	@Test
-	public void testAddPlanTemplate() throws RemoteException
-	{
+	public void testAddPlanTemplate() throws RemoteException {
 		Plan Iowa_State = new IowaState();
 		PlanFile Iowa_test = new PlanFile(null, true, Iowa_State);
 		testServer.addPlanTemplate("IowaState", Iowa_test);
@@ -58,8 +51,7 @@ public class ServerTest
 	 * @throws Exception
 	 */
 	@Test
-	public void testSerialization() throws Exception
-	{
+	public void testSerialization() throws Exception {
 		testServer.save();
 		Server temp = ServerImplementation.load();
 		assertEquals(testServer, temp);
