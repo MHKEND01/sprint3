@@ -1,10 +1,5 @@
 This is our design document:
-https://docs.google.com/document/d/1usWl9l82Wa1OelQTavswDzb6ZTNx1EhyaA9iFIS7zCY/edit?usp=sharing
+https://docs.google.com/document/d/13K1acQtwVmq-VouRPQfQHnrvN_sxgjueud7TOSBhrD8/edit?usp=sharing
 
-Testing Notes:
-If running client and server on the same machine:
-- LocalTestSuite
-If running server and client on separate machines:
-1. Run ServerImplementation. This can be done in eclipse. The main method automatically generates RMI registry.
-2. Edit RemoteClientTest setUpBeforeClass method. You will need to change the hostname to whatever machine is running the server. Verify the ports are the same. 
-3. Run RemoteTestSuite
+Testing Instructions:
+https://docs.google.com/document/d/1MM0q3RMSAiV2xwwtCB-RzlVqYSAbuxHtztwNZpv9Vxc/edit?usp=sharing
