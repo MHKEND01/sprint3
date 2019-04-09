@@ -59,7 +59,7 @@ public class PlanEditController {
 	 * @throws IllegalArgumentException if plan of this year is not editable
 	 * @throws RemoteException if cannot connect to server
 	 */
-	public void savePlan(String year) throws IllegalArgumentException, RemoteException { model.savePlan(year); }
+	public void savePlan(String year) throws IllegalArgumentException, RemoteException, NumberFormatException { model.savePlan(year); }
 
 	/**
 	 * Adds a new section to the business plan

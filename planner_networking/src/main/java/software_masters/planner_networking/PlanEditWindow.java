@@ -110,6 +110,7 @@ public class PlanEditWindow extends Application {
 		Label lbl = new Label();
 		VBox navPane = new VBox(0);
 		tree.prefHeightProperty().bind(navPane.heightProperty().multiply(1));
+		tree.setTooltip(new Tooltip("Click on a section to edit it"));
 
 		navPane.getStyleClass().add("navPane");
 		navPane.getChildren().addAll(tree, lbl);
@@ -157,6 +158,8 @@ public class PlanEditWindow extends Application {
 		Region spacer = new Region();
 		HBox.setHgrow(spacer, Priority.ALWAYS);
 		yearText = new TextField(planFile.getYear());
+		yearText.setTooltip(new Tooltip("Edit the year to save this buisness plan to"));
+
 		Label yearTextLabel = new Label("Year:");
 
 		//creates a button to push business plan to server
@@ -169,9 +172,19 @@ public class PlanEditWindow extends Application {
 				TreeItem<Node> temp = tree.getSelectionModel().getSelectedItem();
 				control.updateNodeText(temp.getValue(), titleText.getText(), contentText.getText());
 				control.savePlan(yearText.getText());
-			} catch (IllegalArgumentException | RemoteException e1) {
-				e1.printStackTrace();
+			} 
+			catch (NumberFormatException e1)
+			{
+				warn("Invalid Year");
 			}
+			catch (IllegalArgumentException e1) {
+				warn("This plan is marked as non-editable: Cannot save changes");
+			}
+			catch (RemoteException e1)
+			{
+				warn("Unable to connect to server");
+			}
+
 		});
 		toolPane.getChildren().add(saveButton);
 
@@ -198,6 +211,10 @@ public class PlanEditWindow extends Application {
 		
 		this.titleText = new TextField(model.getTitle());
 		this.contentText = new TextField(model.getContent());
+		
+		contentText.setTooltip(new Tooltip("Edit the content for this section here"));
+		titleText.setTooltip(new Tooltip("Edit the title of this section here"));
+
 		
 		contentText.prefHeightProperty().bind(centerPane.heightProperty().multiply(1));
 		centerPane.getChildren().add(titleText);

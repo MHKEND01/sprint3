@@ -121,8 +121,14 @@ public class ClientModel {
 	 * @throws IllegalArgumentException if the plan of provided year is not editable
 	 * @throws RemoteException if cannot connect to server
 	 */
-	public void savePlan(String year) throws IllegalArgumentException, RemoteException {
+	public void savePlan(String year) throws IllegalArgumentException, RemoteException, NumberFormatException {
+		
+		
 		client.getCurrPlanFile().setYear(year);
+		
+		year = year.trim();
+		Integer.parseInt(year);
+		
 		client.pushPlan(client.getCurrPlanFile());
 		isSaved = true;
 	}
